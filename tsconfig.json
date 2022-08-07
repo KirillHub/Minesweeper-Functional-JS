@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"target": "ES6",
+		"watch": true,
+		"allowJs": true,
+		"outDir": "dist",
+	},
+	"files": [
+		"src/modules/CheckExtremeBorders.ts",
+		"src/modules/neighborsSearcher.ts",
+		"src/modules/Board.ts",
+		"src/modules/randomizeMines.ts",
+		"src/modules/CreateBoard.ts",
+		"src/modules/ControllerAnimation.ts",
+		"src/modules/Timer.ts",
+		"src/modules/OpenFields.ts"
+	],
+}
