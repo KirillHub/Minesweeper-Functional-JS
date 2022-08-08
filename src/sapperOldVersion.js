@@ -4,7 +4,7 @@ import { timer } from '../dist/Timer.js';
 import neighborsSearcher from '../dist/neighborsSearcher.js';
 
 
-startGame(10, 10, 2000000);
+startGame(10, 10, 11);
 
 function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
@@ -30,8 +30,8 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 		let counter = -1;
 
 		for (let i = 0; i < WIDTH; i++) {
-
 			for (let j = 0; j < HEIGHT; j++) {
+
 				counter++;
 				const number = i + j + 2;
 				const unpairMaskBlock = document.createElement('div');
@@ -86,7 +86,6 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	field.addEventListener('click', (event) => {
 
 		if (event.target.tagName !== 'DIV') return;
-
 		const index = cells.indexOf(event.target);
 
 		function firstClickAnimation() {
@@ -94,12 +93,24 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 			neighborsSearcher(index).forEach(item => {
 
 				for (let i = 0; i < bombs.length; i++) {
+					let randonInteger = randomizerMinesIndex(0, 99);
+
 					if (item === bombs[i]) {
-						let rand = randomizerMinesIndex(0, 99);
+
 						do {
-							rand++;
-							bombs[i] = rand;
-						} while (rand === bombs[i] && rand <= 99) //! && bombs.length >= BOMBS_COUNT
+							randonInteger++;
+							bombs[i] = randonInteger;
+						} while (randonInteger === bombs[i] && randonInteger <= 99);
+
+						if (BOMBS_COUNT <= 10 && bombs[i] === bombs[i]) {
+							let fullRand = randomizerMinesIndex(0, 99);
+							console.log(`clone = ${bombs[i]}`); //? later del this
+							// bombs[i] === 100 ? item !== 0 ? bombs[i] = 0 : bombs[i] = 1 : bombs[i];
+							do {
+								fullRand++
+								bombs[i] = fullRand;
+							} while (bombs[i] !== bombs[i] && bombs[i] <= 99 && fullRand !== randonInteger && fullRand <= 99)
+						}
 					}
 				}
 			});
@@ -128,60 +139,60 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 		const row = Math.floor(index / WIDTH);
 
 		open(row, column);
+	});
+
+	//! flags counter + win
+	field.addEventListener('contextmenu', (event) => {
+		event.preventDefault();
+
+		function flagCounter() {
+			const index = cells.indexOf(event.target);
+			const selector = event.target;
+			const flags = document.querySelector('.main-title__flags-counter');
+			const pullFlagsCoord = new Array();
+
+			console.log(index);
+			if (flagsCounter > 0
+				&& selector.style.backgroundColor !== 'rgb(228, 194, 159)'
+				&& selector.style.backgroundColor !== 'rgb(215, 184, 153)') {
 
 
-		//! flags counter
-		field.addEventListener('contextmenu', (e) => {
-			e.preventDefault();
-			console.log(bombs.length);
+				if (selector.innerHTML !== '🚩') {
+					flags.innerHTML = --flagsCounter;
+					selector.innerHTML = '🚩';
 
-			function flagCounter() {
-				const selector = e.target;
-				const flags = document.querySelector('.main-title__flags-counter');
-
-				if (flagsCounter > 0
-					&& selector.style.backgroundColor !== 'rgb(228, 194, 159)'
-					&& selector.style.backgroundColor !== 'rgb(215, 184, 153)') {
-
-
-					if (selector.innerHTML !== '🚩') {
-
-						flags.innerHTML = --flagsCounter;
-						selector.innerHTML = '🚩';
-
-					} else if (selector.innerHTML == '🚩') {
-						flags.innerHTML = ++flagsCounter;
-						selector.innerHTML = '';
-
-					} else if (flagsCounter === 1 && selector.innerHTML == '🚩') {
-						flagsCounter++;
-						selector.innerHTML = '';
-					}
-
-				} else if (flagsCounter >= 0 && selector.innerHTML == '🚩') {
+				} else if (selector.innerHTML == '🚩') {
 					flags.innerHTML = ++flagsCounter;
+					selector.innerHTML = '';
+
+				} else if (flagsCounter === 1 && selector.innerHTML == '🚩') {
+					flagsCounter++;
 					selector.innerHTML = '';
 				}
 
-				let counterLastFields = 0;
-
-				if (flags.textContent == 0) {
-					cells.forEach(item => {
-						item.style.backgroundColor === 'rgb(162, 208, 73)' ? counterLastFields++ : counterLastFields;
-						item.style.backgroundColor === 'rgb(169, 215, 81)' ? counterLastFields++ : counterLastFields;
-					});
-				}
-				// console.log(counterLastFields);
-				if (counterLastFields === bombs.length) {
-					endGameText.innerText = 'YOU WIN !';
-					setTimeout(() => { window.location.reload() }, 1500);
-				}
+			} else if (flagsCounter >= 0 && selector.innerHTML == '🚩') {
+				flags.innerHTML = ++flagsCounter;
+				selector.innerHTML = '';
 			}
-			flagCounter();
-		});
 
-		// soundsEffectsOnclick.soundClick(); //! вкл
+			let counterLastFields = 0;
+
+			if (flags.textContent == 0) {
+				cells.forEach(item => {
+					item.style.backgroundColor === 'rgb(162, 208, 73)' ? counterLastFields++ : counterLastFields;
+					item.style.backgroundColor === 'rgb(169, 215, 81)' ? counterLastFields++ : counterLastFields;
+				});
+			}
+
+			if (counterLastFields === bombs.length) {
+				endGameText.innerText = 'YOU WIN !';
+				setTimeout(() => { window.location.reload() }, 1500);
+			}
+		}
+		flagCounter();
 	});
+
+	// soundsEffectsOnclick.soundClick(); //! вкл
 
 
 	function isValid(row, column) {
@@ -198,7 +209,7 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 				}
 			}
 		}
-		return count
+		return count;
 	}
 
 	function open(row, column) {
@@ -236,11 +247,8 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 				// soundsEffectsBombOnclick.soundBomb(); //! вкл
 
-				/*
-				! вкл
 				endGameText.innerText = 'YOU LOSE!';
 				setTimeout(() => { window.location.reload() }, 1500);
-				*/
 
 				return;
 			}
