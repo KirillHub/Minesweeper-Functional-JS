@@ -1,184 +1,254 @@
+'use strict';
 
-'use strict'
-function boundaryCheck(value, maxid) {
-  let array = [value];
-  if (value - 1 >= 0) array.unshift(value - 1);
-  if (value + 1 <= maxid) array.push(value + 1);
-  return array;
-}
+import { timer } from '../dist/Timer.js';
+import neighborsSearcher from '../dist/neighborsSearcher.js';
 
-function getCartesianNeighbors(point = { width: 0, height: 0 }, maxWidthID, maxHeightID) {
-  let xValues = boundaryCheck(point.width, maxWidthID);
-  let yValues = boundaryCheck(point.height, maxHeightID);
-  let pairs = [];
-  xValues.forEach(x => yValues.forEach(y => pairs.push({ width: x, height: y })));
-  pairs = pairs.filter(pair => point.width != pair.width && point.height != pair.height);
-  return pairs;
-}
 
-// left to right, top to bottom
-function getCoordPair(coord, box = { width, height }) {
-  let x = coord % box.width;
-  let y = Math.floor(coord / box.width);
-  return { width: x, height: y };
-}
-function randomInts(rangeSize, count) {
-  let nums = [...Array(rangeSize).keys()];
-  return shuffle(nums).size(count);
-}
-// implements Fisher-Yates shuffle.
-function shuffle(array) {
-  let currentIndex = array.length, randomIndex;
-  // while there remain elements to shuffle.
-  while (currentIndex != 0) {
-    // pick a remaining element.
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-    // and swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
-  }
-  return array;
-}
-class SwepperCell {
-  #isOpen = false;
-  #isBomb = false;
-  #neighboringBombs = 0;
-  set(isBomb) {
-    this.#isBomb = isBomb;
-  }
-  addBombCount(diff) {
-    this.#neighboringBombs += diff;
-  }
-  open() {
-    this.#isOpen = true;
-  }
-  get() {
-    return { bomb: this.#isBomb, open: this.#isOpen, number: this.#neighboringBombs }
-  }
-}
-// TODO create SweeperDataProver for managing turn 1 and consecutive turns
-class SweeperData {
-  #box;
-  #board; // A 2D Array of SweeperCells
-  #extrabomb; // replacement bomb in case the user was unlucky to explode on turn 1
-  constructor(width, height, bombcount) {
-    this.#box = { width: width, height: height };
-    this.#board = new Array(width);
-    this.#board.fill(
-      new Array(height).fill(
-        new SweeperCell()
-      )
-    );
-    let size = width * height;
-    let bombCoords = randomInts(size, bombcount + 1);
-    this.#extrabomb = bombCoords.pop();
-    this.setupBombs(width, height, bombCoords);
-  }
-  setupBombs(width, height, bombCoords) {
-    bombCoords.forEach(coord => {
-      let pair = getCoordPair(coord, this.#box);
-      this.getCell(pair.width, pair.height)
-        .set(true);
-      getCartesianNeighbors(pair, width - 1, height - 1).forEach(
-        neighbor => {
-          this.getCell(neighbor).addBombCount(1);
+startGame(10, 10, 3);
+
+function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
+
+  const field = document.querySelector('.field');
+  const flag = document.querySelector('.main-title__flags-counter');
+  const endGameText = document.querySelector('.end-game');
+
+  const cellsCount = WIDTH * HEIGHT;
+
+  let cells = [];
+  const keysPairArray = [];
+  const keysUnpairArray = [];
+
+  let bombs;
+
+  let flagsCounter = BOMBS_COUNT;
+  flag.innerText = flagsCounter;
+  let flagsLocationCoords = new Set();
+
+
+  // create two colors for board
+  function board() {
+    let counter = -1;
+
+    for (let i = 0; i < WIDTH; i++) {
+      for (let j = 0; j < HEIGHT; j++) {
+
+        counter++;
+        const number = i + j + 2;
+        const unpairMaskBlock = document.createElement('div');
+        const pairMaskBlock = document.createElement('div');
+
+        if (number % 2 === 0) {
+          pairMaskBlock.style.backgroundColor = '#a9d751';
+          field.append(pairMaskBlock);
+          keysPairArray.push(counter);
         }
-      )
-    })
-  }
-  modifyFirstBomb(point) {
-    this.getCell(point).set(false);
-    getCartesianNeighbors(point)
-      .filter(coords => { return this.getCell(coords).get().bomb })
-      .forEach(this.getCell(point).addBombCount(1));
-  }
-  activateExtraBomb() {
-    this.getCell(this.#extrabomb).set(true);
-    getCartesianNeighbors(this.#extrabomb).forEach(coords => {
-      this.getCell(coords).addBombCount(1);
-    });
-  }
-  getCell(point = { width: 0, height: 0 }) {
-    let cell = this.#board[width][height];
-    if (cell.get().bomb) {
-      this.modifyFirstBomb(point);
-      this.activateExtraBomb();
-    }
-    this.replaceFunctionGetCell();
-    return cell;
-  }
-  replaceFunctionGetCell() {
-    this.getCell = function(point) {
-      return this.#board[width][height];
-    }
-  }
-}
-class SweeperLogic {
-  #data;
-  #divboard;
-  constructor(data, divboard) {
-    this.#data = data;
-    this.#divboard = divboard;
-  }
-  getBoard() {
-  }
-  openCell(point = { width, height }) {
-    let set = new Set();
-    set.add([point.width, point.height]);
-    this.openCellRecur(set)
-  }
-  // NOTE: this is inefficienct since every cell in the queue leads to
-  // checking 8 adjacent cells, even if most of then have been checked
-  // by the previous iteration or cell.
-  // this implementation can be multithreaded, but a single-thread
-  // solution could do less redundant work.
-  openCellRecur(updateSet) {
-    let nextQueue = new Set();
-    updateQueue.forEach(coords => {
-      let cell = this.#divboard.getCell(coords)
-      cell.open();
-      if (cell.get().number == 0) {
-        getCartesianNeighbors(coords)
-          .filter(nei => !this.#divboard.getCell(nei).get().open)
-          .forEach(obj => nextQueue.add([obj.width, obj.height]));
+        if (number % 2 !== 0) {
+          unpairMaskBlock.style.backgroundColor = '#a2d049';
+          field.append(unpairMaskBlock);
+          keysUnpairArray.push(counter);
+        }
+
+        cells = [...field.children];
       }
-      this.#divboard.propagate(cell.get());
-    })
-    if (nextQueue.size > 0) return this.openCellRecur(nextQueue);
-  }
-}
-class SweeperDivBoard {
-  #box;
-  #divboard;
-  #cells;
-  constructor(width, height, cellpixels) {
-    this.#box = { width: width, height: height };
-    let size = width * height;
-    this.#divboard = document.getElementsByClassName("board")[0];
-    this.#cells = this.#divboard.children;
-    this.#divboard.style.width = (width * cellpixels) + "px"; // TODO: make it more dynamic
-    this.#divboard.style.height = (height * cellpixels) + "px";
-    this.#divboard.style.gridTemplateColumns = "repeat(auto-fill, %px)".replace("%", cellpixels);
-    this.drawDivs(size, width);
-    this.#divboard.addEventListener("click", (e) => { this.handleClick(e, this.#box); });
-  }
-  handleClick(event, box) {
-    let id = event.target.id.slice(5) // slice removes "cell "
-    console.log(id); //TODO
-    console.log(getCoordPair(id, box));
-  }
-  drawDivs(size, width) {
-    for (let i = 0; i < size; i++) {
-      let el = document.createElement("div");
-      let magic = width % 2 ? 1 : Math.floor(i/width)%2;
-      el.className = (i % 2 == magic) ? "cell-light" : "cell-dark";
-      el.id = "cell " + i.toString();
-      this.#divboard.appendChild(el);
     }
   }
-  propagate(cell) {
+  board();
+
+
+  //? sounds effects
+  class MusicComponents {
+
+    static musicSounds(audioPath) {
+      this.audioPath = audioPath;
+      this.audio = new Audio();
+      this.audio.src = this.audioPath;
+      this.audio.play();
+    }
+  };
+
+  //? start timer on first click
+  field.addEventListener('click', (event) => {
+    if (event.target.tagName !== 'DIV') return;
+    const index = cells.indexOf(event.target);
+
+    bombsAnimation();
+    timer();
+    MusicComponents.musicSounds('../music/first-click.wav');
+
+  }, { once: true });
+
+
+  function bombsAnimation() {
+    const index = cells.indexOf(event.target); //?
+    let bombsRandomArrayGenerated = new Array();
+    let setObject = new Set();
+
+    neighborsSearcher(index).forEach(neighbors => setObject.add(neighbors));
+
+    do {
+      setObject.add(randomizerMinesIndex(0, 99));
+    } while (setObject.size < (BOMBS_COUNT + neighborsSearcher(index).length)
+      && setObject.size <= 99);
+
+    setObject.forEach(item => bombsRandomArrayGenerated.push(item));
+
+    bombsRandomArrayGenerated = bombsRandomArrayGenerated
+      .slice(neighborsSearcher(index).length, bombsRandomArrayGenerated.length);
+    return bombs = bombsRandomArrayGenerated;
+  };
+
+  function randomizerMinesIndex(minArrayIndex, maxArrayIndex) {
+    minArrayIndex = Math.ceil(minArrayIndex);
+    maxArrayIndex = Math.floor(maxArrayIndex);
+    return Math.floor(Math.random() * (maxArrayIndex - minArrayIndex + 1) + minArrayIndex);
+  };
+
+  //? click animation
+  field.addEventListener('click', (event) => {
+
+    field.addEventListener("mousedown", function (event) { event.preventDefault(); })
+    field.addEventListener("mouseup", function (event) { event.preventDefault(); })
+
+    if (event.target.tagName !== 'DIV') return;
+
+    const index = cells.indexOf(event.target);
+    const column = index % WIDTH;
+    const row = Math.floor(index / WIDTH);
+
+    open(row, column);
+  });
+
+
+  //! flags counter + win
+  field.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+
+    function flagCounter() {
+      const index = cells.indexOf(event.target);
+      const selector = event.target;
+      const pullFlagsCoord = new Array();
+
+      if (bombs) {
+        if (flagsCounter > 0
+          && selector.style.backgroundColor !== 'rgb(228, 194, 159)'
+          && selector.style.backgroundColor !== 'rgb(215, 184, 153)') {
+
+          if (selector.innerHTML !== '🚩') {
+            flag.innerHTML = --flagsCounter;
+            selector.innerHTML = '🚩';
+            flagsLocationCoords.add(index);
+
+          } else if (selector.innerHTML == '🚩') {
+            flag.innerHTML = ++flagsCounter;
+            selector.innerHTML = '';
+            flagsLocationCoords.delete(index);
+
+          } else if (flagsCounter === 1 && selector.innerHTML == '🚩') {
+            flagsCounter++;
+            selector.innerHTML = '';
+          };
+
+        } else if (flagsCounter >= 0 && selector.innerHTML == '🚩') {
+          flag.innerHTML = ++flagsCounter;
+          selector.innerHTML = '';
+        }
+
+        bombs.forEach(bombsLocation => {
+          flagsLocationCoords.forEach(flagsCord => {
+            if (bombsLocation === flagsCord) pullFlagsCoord.push(flagsCord);
+            if (pullFlagsCoord.length === bombs.length) {
+              endGameText.innerText = 'YOU WIN !';
+              setTimeout(() => { window.location.reload() }, 2000);
+            }
+          });
+        });
+
+      };
+    }
+    flagCounter();
+  }, true);
+
+  // soundsEffectsOnclick.soundClick(); //! вкл
+
+
+  function isValid(row, column) {
+    return row >= 0 && row < HEIGHT
+      && column >= 0 && column < WIDTH;
+  }
+
+  function getCount(row, column) {
+    let count = 0;
+    for (let x = -1; x <= 1; x++) {
+      for (let y = -1; y <= 1; y++) {
+        if (isBomb(row + y, column + x)) {
+          count++
+        }
+      }
+    }
+    return count;
+  }
+
+  function open(row, column) {
+    if (!isValid(row, column)) return;
+
+    const index = row * WIDTH + column;
+    const cell = cells[index];
+
+    if (cell.disabled === true) return;
+
+    cell.disabled = true;
+
+    if (index >= 0) {
+      keysPairArray.forEach(items => {
+        if (items === index) cell.style.background = '#e4c29f';
+      });
+
+      keysUnpairArray.forEach(items => {
+        if (items === index) cell.style.background = '#d7b899';
+      });
+
+      if (getCount(row, column) == 1) cell.style.color = 'blue';
+      if (getCount(row, column) == 2) cell.style.color = 'green';
+      if (getCount(row, column) == 3) cell.style.color = 'red';
+      if (getCount(row, column) == 4) cell.style.color = 'purple';
+      if (getCount(row, column) == 5) cell.style.color = 'black';
+      if (getCount(row, column) == 6) cell.style.color = 'darkslategray';
+      if (getCount(row, column) == 7) cell.style.color = 'rgb(64, 25, 90)';
+      if (getCount(row, column) == 8) cell.style.color = 'rgb(15, 81, 119)';
+
+
+      if (isBomb(row, column)) {
+
+        cell.innerHTML = '💣';
+
+        // soundsEffectsBombOnclick.soundBomb(); //! вкл
+
+        endGameText.innerText = 'YOU LOSE!';
+        setTimeout(() => { window.location.reload() }, 1500);
+
+        return;
+      }
+
+      const count = getCount(row, column);
+
+      if (count !== 0) {
+        cell.innerHTML = count;
+        return;
+      }
+
+      for (let x = -1; x <= 1; x++) {
+        for (let y = -1; y <= 1; y++) {
+          open(row + x, column + y);
+        }
+      }
+    }
+  }
+
+  function isBomb(row, column) {
+    if (!isValid(row, column)) return false;
+
+    const index = row * WIDTH + column;
+
+    return bombs.includes(index)
   }
 }
-// test code
-let board = new SweeperDivBoard(14, 12, 40);

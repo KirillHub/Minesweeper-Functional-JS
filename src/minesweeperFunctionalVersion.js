@@ -8,6 +8,7 @@ startGame(10, 10, 3);
 
 function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
+	document.addEventListener('contextmenu', (event) => event.preventDefault())
 	const field = document.querySelector('.field');
 	const flag = document.querySelector('.main-title__flags-counter');
 	const endGameText = document.querySelector('.end-game');
@@ -25,13 +26,12 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	let flagsLocationCoords = new Set();
 
 
-	// create two colors for board
+	// two colors for board
 	function board() {
 		let counter = -1;
 
 		for (let i = 0; i < WIDTH; i++) {
 			for (let j = 0; j < HEIGHT; j++) {
-
 				counter++;
 				const number = i + j + 2;
 				const unpairMaskBlock = document.createElement('div');
@@ -47,7 +47,6 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 					field.append(unpairMaskBlock);
 					keysUnpairArray.push(counter);
 				}
-
 				cells = [...field.children];
 			}
 		}
@@ -58,44 +57,22 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	//? sounds effects
 	class MusicComponents {
 
-		constructor(audioPath) {
+		static musicSounds(audioPath) {
 			this.audioPath = audioPath;
-		};
-
-		static musicSounds() {
 			this.audio = new Audio();
 			this.audio.src = this.audioPath;
 			this.audio.play();
 		}
+	};
 
-		firstClickMusic() {
-			this.audio.src = "../music/first-click.wav";
-			this.audio.play();
-		};
-
-		soundClick() {
-			this.audio.src = "../music/clicks.wav";
-			this.audio.play();
-		};
-
-		soundBomb() {
-			this.audio.src = "../music/beep-bomb.mp3";
-			this.audio.play();
-		};
-	}
-	const soundsEffectsOnclick = new MusicComponents();
-	const firstClickEffectSound = new MusicComponents();
-	const soundsEffectsBombOnclick = new MusicComponents();
-
-	//? start timer on first click
+	//?  first click
 	field.addEventListener('click', (event) => {
 		if (event.target.tagName !== 'DIV') return;
-		const index = cells.indexOf(event.target);
+		field.addEventListener("contextmenu", event => event.preventDefault());
 
 		bombsAnimation();
 		timer();
 		MusicComponents.musicSounds('../music/first-click.wav');
-
 	}, { once: true });
 
 
@@ -125,7 +102,12 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	};
 
 
+	//? click's animation
 	field.addEventListener('click', (event) => {
+		field.addEventListener("mousedown", event => event.preventDefault());
+		field.addEventListener("mouseup", event => event.preventDefault());
+		field.addEventListener("contextmenu", event => event.preventDefault());
+
 		if (event.target.tagName !== 'DIV') return;
 
 		const index = cells.indexOf(event.target);
@@ -133,12 +115,15 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 		const row = Math.floor(index / WIDTH);
 
 		open(row, column);
+		MusicComponents.musicSounds('../music/clicks.wav');
 	});
 
 
 	//! flags counter + win
 	field.addEventListener('contextmenu', (event) => {
 		event.preventDefault();
+		field.addEventListener("mousedown", event => event.preventDefault());
+		field.addEventListener("mouseup", event => event.preventDefault());
 
 		function flagCounter() {
 			const index = cells.indexOf(event.target);
@@ -153,28 +138,33 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 					if (selector.innerHTML !== '🚩') {
 						flag.innerHTML = --flagsCounter;
 						selector.innerHTML = '🚩';
+						MusicComponents.musicSounds('../music/tick.mp3');
 						flagsLocationCoords.add(index);
 
 					} else if (selector.innerHTML == '🚩') {
 						flag.innerHTML = ++flagsCounter;
 						selector.innerHTML = '';
+						MusicComponents.musicSounds('../music/tick.mp3');
 						flagsLocationCoords.delete(index);
 
 					} else if (flagsCounter === 1 && selector.innerHTML == '🚩') {
 						flagsCounter++;
 						selector.innerHTML = '';
+						MusicComponents.musicSounds('../music/tick.mp3');
 					};
 
 				} else if (flagsCounter >= 0 && selector.innerHTML == '🚩') {
 					flag.innerHTML = ++flagsCounter;
 					selector.innerHTML = '';
-				}
+					MusicComponents.musicSounds('../music/tick.mp3');
+				};
 
 				bombs.forEach(bombsLocation => {
 					flagsLocationCoords.forEach(flagsCord => {
 						if (bombsLocation === flagsCord) pullFlagsCoord.push(flagsCord);
 						if (pullFlagsCoord.length === bombs.length) {
 							endGameText.innerText = 'YOU WIN !';
+							MusicComponents.musicSounds('../music/win.mp3');
 							setTimeout(() => { window.location.reload() }, 2000);
 						}
 					});
@@ -183,15 +173,12 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 			};
 		}
 		flagCounter();
-	}, true);
-
-	// soundsEffectsOnclick.soundClick(); //! вкл
-
+	});
 
 	function isValid(row, column) {
 		return row >= 0 && row < HEIGHT
 			&& column >= 0 && column < WIDTH;
-	}
+	};
 
 	function getCount(row, column) {
 		let count = 0;
@@ -199,11 +186,11 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 			for (let y = -1; y <= 1; y++) {
 				if (isBomb(row + y, column + x)) {
 					count++
-				}
-			}
-		}
+				};
+			};
+		};
 		return count;
-	}
+	};
 
 	function open(row, column) {
 		if (!isValid(row, column)) return;
@@ -235,14 +222,10 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 
 			if (isBomb(row, column)) {
-
 				cell.innerHTML = '💣';
-
-				// soundsEffectsBombOnclick.soundBomb(); //! вкл
-
+				MusicComponents.musicSounds('../music/beep-bomb.mp3');
 				endGameText.innerText = 'YOU LOSE!';
 				setTimeout(() => { window.location.reload() }, 1500);
-
 				return;
 			}
 
@@ -265,7 +248,6 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 		if (!isValid(row, column)) return false;
 
 		const index = row * WIDTH + column;
-
 		return bombs.includes(index)
 	}
 }
