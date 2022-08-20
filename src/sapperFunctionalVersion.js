@@ -4,7 +4,7 @@ import { timer } from '../dist/Timer.js';
 import neighborsSearcher from '../dist/neighborsSearcher.js';
 
 
-startGame(10, 10, 11);
+startGame(10, 10, 3);
 
 function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
@@ -18,11 +18,11 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	const keysPairArray = [];
 	const keysUnpairArray = [];
 
-	let bombs = [...Array(cellsCount).keys()].sort(() => Math.random() - 0.5)
-		.slice(0, BOMBS_COUNT);
+	let bombs;
 
-	let flagsCounter = bombs.length;
+	let flagsCounter = BOMBS_COUNT;
 	flag.innerText = flagsCounter;
+	let flagsLocationCoords = new Set();
 
 
 	// create two colors for board
@@ -58,10 +58,15 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	//? sounds effects
 	class MusicComponents {
 
-		constructor(audio) {
-			this.audio = audio;
-			this.audio = new Audio();
+		constructor(audioPath) {
+			this.audioPath = audioPath;
 		};
+
+		static musicSounds() {
+			this.audio = new Audio();
+			this.audio.src = this.audioPath;
+			this.audio.play();
+		}
 
 		firstClickMusic() {
 			this.audio.src = "../music/first-click.wav";
@@ -84,51 +89,40 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 	//? start timer on first click
 	field.addEventListener('click', (event) => {
-
 		if (event.target.tagName !== 'DIV') return;
 		const index = cells.indexOf(event.target);
 
-		function firstClickAnimation() {
-
-			neighborsSearcher(index).forEach(item => {
-
-				for (let i = 0; i < bombs.length; i++) {
-					let randonInteger = randomizerMinesIndex(0, 99);
-
-					if (item === bombs[i]) {
-
-						do {
-							randonInteger++;
-							bombs[i] = randonInteger;
-						} while (randonInteger === bombs[i] && randonInteger <= 99);
-
-						if (BOMBS_COUNT <= 10 && bombs[i] === bombs[i]) {
-							let fullRand = randomizerMinesIndex(0, 99);
-							console.log(`clone = ${bombs[i]}`); //? later del this
-							// bombs[i] === 100 ? item !== 0 ? bombs[i] = 0 : bombs[i] = 1 : bombs[i];
-							do {
-								fullRand++
-								bombs[i] = fullRand;
-							} while (bombs[i] !== bombs[i] && bombs[i] <= 99 && fullRand !== randonInteger && fullRand <= 99)
-						}
-					}
-				}
-			});
-
-			return bombs;
-		};
-
-		firstClickAnimation();
+		bombsAnimation();
 		timer();
-		// firstClickEffectSound.firstClickMusic(); //! вкл
+		MusicComponents.musicSounds('../music/first-click.wav');
 
 	}, { once: true });
+
+
+	function bombsAnimation() {
+		const index = cells.indexOf(event.target); //?
+		let bombsRandomArrayGenerated = new Array();
+		let setObject = new Set();
+
+		neighborsSearcher(index).forEach(neighbors => setObject.add(neighbors));
+
+		do {
+			setObject.add(randomizerMinesIndex(0, 99));
+		} while (setObject.size < (BOMBS_COUNT + neighborsSearcher(index).length)
+			&& setObject.size <= 99);
+
+		setObject.forEach(item => bombsRandomArrayGenerated.push(item));
+
+		bombsRandomArrayGenerated = bombsRandomArrayGenerated
+			.slice(neighborsSearcher(index).length, bombsRandomArrayGenerated.length);
+		return bombs = bombsRandomArrayGenerated;
+	};
 
 	function randomizerMinesIndex(minArrayIndex, maxArrayIndex) {
 		minArrayIndex = Math.ceil(minArrayIndex);
 		maxArrayIndex = Math.floor(maxArrayIndex);
 		return Math.floor(Math.random() * (maxArrayIndex - minArrayIndex + 1) + minArrayIndex);
-	}
+	};
 
 
 	field.addEventListener('click', (event) => {
@@ -141,6 +135,7 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 		open(row, column);
 	});
 
+
 	//! flags counter + win
 	field.addEventListener('contextmenu', (event) => {
 		event.preventDefault();
@@ -148,49 +143,47 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 		function flagCounter() {
 			const index = cells.indexOf(event.target);
 			const selector = event.target;
-			const flags = document.querySelector('.main-title__flags-counter');
 			const pullFlagsCoord = new Array();
 
-			console.log(index);
-			if (flagsCounter > 0
-				&& selector.style.backgroundColor !== 'rgb(228, 194, 159)'
-				&& selector.style.backgroundColor !== 'rgb(215, 184, 153)') {
+			if (bombs) {
+				if (flagsCounter > 0
+					&& selector.style.backgroundColor !== 'rgb(228, 194, 159)'
+					&& selector.style.backgroundColor !== 'rgb(215, 184, 153)') {
 
+					if (selector.innerHTML !== '🚩') {
+						flag.innerHTML = --flagsCounter;
+						selector.innerHTML = '🚩';
+						flagsLocationCoords.add(index);
 
-				if (selector.innerHTML !== '🚩') {
-					flags.innerHTML = --flagsCounter;
-					selector.innerHTML = '🚩';
+					} else if (selector.innerHTML == '🚩') {
+						flag.innerHTML = ++flagsCounter;
+						selector.innerHTML = '';
+						flagsLocationCoords.delete(index);
 
-				} else if (selector.innerHTML == '🚩') {
-					flags.innerHTML = ++flagsCounter;
-					selector.innerHTML = '';
+					} else if (flagsCounter === 1 && selector.innerHTML == '🚩') {
+						flagsCounter++;
+						selector.innerHTML = '';
+					};
 
-				} else if (flagsCounter === 1 && selector.innerHTML == '🚩') {
-					flagsCounter++;
+				} else if (flagsCounter >= 0 && selector.innerHTML == '🚩') {
+					flag.innerHTML = ++flagsCounter;
 					selector.innerHTML = '';
 				}
 
-			} else if (flagsCounter >= 0 && selector.innerHTML == '🚩') {
-				flags.innerHTML = ++flagsCounter;
-				selector.innerHTML = '';
-			}
-
-			let counterLastFields = 0;
-
-			if (flags.textContent == 0) {
-				cells.forEach(item => {
-					item.style.backgroundColor === 'rgb(162, 208, 73)' ? counterLastFields++ : counterLastFields;
-					item.style.backgroundColor === 'rgb(169, 215, 81)' ? counterLastFields++ : counterLastFields;
+				bombs.forEach(bombsLocation => {
+					flagsLocationCoords.forEach(flagsCord => {
+						if (bombsLocation === flagsCord) pullFlagsCoord.push(flagsCord);
+						if (pullFlagsCoord.length === bombs.length) {
+							endGameText.innerText = 'YOU WIN !';
+							setTimeout(() => { window.location.reload() }, 2000);
+						}
+					});
 				});
-			}
 
-			if (counterLastFields === bombs.length) {
-				endGameText.innerText = 'YOU WIN !';
-				setTimeout(() => { window.location.reload() }, 1500);
-			}
+			};
 		}
 		flagCounter();
-	});
+	}, true);
 
 	// soundsEffectsOnclick.soundClick(); //! вкл
 
