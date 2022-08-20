@@ -8,7 +8,7 @@ startGame(10, 10, 3);
 
 function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
-	document.addEventListener('contextmenu', (event) => event.preventDefault())
+	document.addEventListener('contextmenu', event => event.preventDefault(), false, null);
 	const field = document.querySelector('.field');
 	const flag = document.querySelector('.main-title__flags-counter');
 	const endGameText = document.querySelector('.end-game');
@@ -53,7 +53,6 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	}
 	board();
 
-
 	//? sounds effects
 	class MusicComponents {
 
@@ -68,13 +67,11 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	//?  first click
 	field.addEventListener('click', (event) => {
 		if (event.target.tagName !== 'DIV') return;
-		field.addEventListener("contextmenu", event => event.preventDefault());
 
 		bombsAnimation();
 		timer();
 		MusicComponents.musicSounds('../music/first-click.wav');
 	}, { once: true });
-
 
 	function bombsAnimation() {
 		const index = cells.indexOf(event.target); //?
@@ -104,10 +101,6 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 	//? click's animation
 	field.addEventListener('click', (event) => {
-		field.addEventListener("mousedown", event => event.preventDefault());
-		field.addEventListener("mouseup", event => event.preventDefault());
-		field.addEventListener("contextmenu", event => event.preventDefault());
-
 		if (event.target.tagName !== 'DIV') return;
 
 		const index = cells.indexOf(event.target);
@@ -121,9 +114,6 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 	//! flags counter + win
 	field.addEventListener('contextmenu', (event) => {
-		event.preventDefault();
-		field.addEventListener("mousedown", event => event.preventDefault());
-		field.addEventListener("mouseup", event => event.preventDefault());
 
 		function flagCounter() {
 			const index = cells.indexOf(event.target);
