@@ -1,7 +1,8 @@
 'use strict'
 
+
+// ! variant check neighbourth bomb for sphere sapper
 /*
-!golden variant check neighbourth bomb
 function isEmptyField(row, column) {
 	const index = row * WIDTH + column;
 	let indexMainArray;

@@ -13,6 +13,5 @@
 		"src/modules/CreateBoard.ts",
 		"src/modules/ControllerAnimation.ts",
 		"src/modules/Timer.ts",
-		"src/modules/OpenFields.ts"
 	],
 }

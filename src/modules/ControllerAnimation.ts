@@ -1,18 +1,38 @@
 'use strict'
 
-import { CreateBoard } from "./CreateBoard.js";
-import { timer } from "./Timer.js";
-import { OpenFields } from "./OpenFields.js";  //!
+// import { CreateBoard } from "./CreateBoard.js";
+// import { timer } from "./Timer.js";
 
 
+
+/*
 const extendCreateBoard: CreateBoard = new CreateBoard();
-const createCellsIndex = extendCreateBoard.createBoard();
-const openFields = new OpenFields();  //!
+// const createCellsIndex = extendCreateBoard.createBoard();
+
+// cringe, pls delet
+export class OpenFields {
+	controllerAnimation: ControllerAnimationLogic;
+	createBoardData: CreateBoard;
+	index: number;
+	cell: number;
 
 
-// createCellsIndex;
+	constructor() {
+
+	}
+}
+
+
 
 export class ControllerAnimationLogic {
+
+
+}
+*/
+
+
+
+/*
 	numbersOfBombGenerated: number = extendCreateBoard.bombs;
 	mainFieldDiv: any = extendCreateBoard.field;
 
@@ -50,34 +70,4 @@ export class ControllerAnimationLogic {
 
 		});
 	};
-	
-}
-
-
-
-
-/*
-// Module my-module.js
-var foo={
-rightPressed:false;
-leftPressed:false;
-keyDownHandler:function(e) {
-	 if (e.keyCode == 39) {
-		  this.rightPressed = true;
-	 }
-	else if (e.keyCode == 37) {
-		  this.leftPressed = true;
-	 }
-}
-keyUpHandler:function(e){
-	  if (e.keyCode == 39) {
-			this.rightPressed = false;
-	  }
-	 else if (e.keyCode == 37) {
-			this.leftPressed = false;
-	  }
-  const keyDown=  document.addEventListener("keydown", this.keyDownHandler, false);
- const keyUp= document.addEventListener("keyup", this.keyUpHandler, false);
-}
-export {foo};
 */

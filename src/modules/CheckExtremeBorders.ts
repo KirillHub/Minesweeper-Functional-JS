@@ -7,7 +7,7 @@ export default class CheckExtremeBorders {
 	static numbersOfBoardLeftVertical(num: number) {
 		let arrayX = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
 
-	
+
 		return arrayX.filter(item => {
 			if (item == num) return num;
 		})

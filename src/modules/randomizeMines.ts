@@ -25,7 +25,7 @@ interface Randomizer {
 	maxArrayIndex: number
 }
 
-class RandomizeMinesVerticalHorizontal {
+class RandomizeMines {
 	minArrayIndex: number;
 	maxArrayIndex: number;
 
@@ -43,5 +43,5 @@ class RandomizeMinesVerticalHorizontal {
 
 }
 
-export const randomizeMinesXY: Randomizer = new RandomizeMinesVerticalHorizontal(1, 100);
+export const randomizeMinesXY: Randomizer = new RandomizeMines(1, 100);
 

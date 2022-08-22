@@ -94,10 +94,6 @@ h6 {
 
 
 /*============================================================================================================*/
-/*
-
-*/
-
 
 body{
   background-color:rgba(99, 202, 79, 0.233);
@@ -111,10 +107,8 @@ body{
 
 .wrapper{
   max-width: 1100px;
-  /* border: 1px solid red; */
   margin: 0 auto;
   padding: 0 0 0 15px;
-
 }
 
 /*============================================================================================================*/
@@ -160,14 +154,21 @@ body{
 
 .main-field{
 	display: flex;
-  /* margin: 0 0 20px 0; */
 }
 .field{
 	margin: 0 auto;
 	display: grid;
 	grid-template-columns: repeat(10, 40px);
-	/* border: 15px solid rgba(126, 54, 54, 0.678); */ /*! later */
   outline: 20px solid rgba(126, 54, 54, 0.678);
+
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+
+  /* pointer-events: none; */
+  cursor: pointer;
 }
 .field div{
   /* border: 2px solid rgb(255, 255, 255); */
@@ -177,13 +178,19 @@ body{
 	display: flex;
 	justify-content: center;
 	align-items: center;
-      
+
   -moz-user-select: -moz-none;
   -o-user-select: none;
   -khtml-user-select: none;
   -webkit-user-select: none;
   user-select: none;
+  /* pointer-events: none; */
 }
+
+.field .fields__hover-class:hover{
+  opacity: 0.5;
+}
+
 .end-game{
   text-align: center;
   font-size: 72;

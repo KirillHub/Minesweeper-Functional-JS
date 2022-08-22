@@ -4,16 +4,21 @@ import { timer } from '../dist/Timer.js';
 import neighborsSearcher from '../dist/neighborsSearcher.js';
 
 
-startGame(10, 10, 3);
+startGame(10, 10, 30);
 
 function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
-	document.addEventListener('contextmenu', event => event.preventDefault(), false, null);
+	document.addEventListener('contextmenu', event => event.preventDefault());
+
 	const field = document.querySelector('.field');
+	// field.addEventListener("click", function (event) { event.preventDefault(); })
+	// field.addEventListener("mousedown", function (event) { event.preventDefault(); })
+	// field.addEventListener("mouseup", function (event) { event.preventDefault(); })
+
 	const flag = document.querySelector('.main-title__flags-counter');
 	const endGameText = document.querySelector('.end-game');
 
-	const cellsCount = WIDTH * HEIGHT;
+	const cellsCount = WIDTH * HEIGHT; // ? delete?
 
 	let cells = [];
 	const keysPairArray = [];
@@ -21,9 +26,18 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 	let bombs;
 
-	let flagsCounter = BOMBS_COUNT;
+	function chekingBombsCount(bombsCount) {
+		if (bombsCount >= 99) return bombsCount = 99;
+		else return bombsCount
+	};
+
+	let flagsCounter = chekingBombsCount(BOMBS_COUNT);
 	flag.innerText = flagsCounter;
 	let flagsLocationCoords = new Set();
+
+	let hoverClassEffectsArray = new Set();
+
+
 
 
 	// two colors for board
@@ -36,6 +50,9 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 				const number = i + j + 2;
 				const unpairMaskBlock = document.createElement('div');
 				const pairMaskBlock = document.createElement('div');
+
+				unpairMaskBlock.classList.add('fields__hover-class');
+				pairMaskBlock.classList.add('fields__hover-class');
 
 				if (number % 2 === 0) {
 					pairMaskBlock.style.backgroundColor = '#a9d751';
@@ -61,7 +78,7 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 			this.audio = new Audio();
 			this.audio.src = this.audioPath;
 			this.audio.play();
-		}
+		};
 	};
 
 	//?  first click
@@ -72,6 +89,7 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 		timer();
 		MusicComponents.musicSounds('../music/first-click.wav');
 	}, { once: true });
+
 
 	function bombsAnimation() {
 		const index = cells.indexOf(event.target); //?
@@ -101,24 +119,31 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 	//? click's animation
 	field.addEventListener('click', (event) => {
-		if (event.target.tagName !== 'DIV') return;
-
-		const index = cells.indexOf(event.target);
+		const selector = event.target;
+		const index = cells.indexOf(selector);
 		const column = index % WIDTH;
 		const row = Math.floor(index / WIDTH);
 
+		field.addEventListener("mousedown", function (event) { event.preventDefault(); });
+		field.addEventListener("mouseup", function (event) { event.preventDefault(); });
+
+		if (selector.tagName !== 'DIV') return;
+
+		if (selector.style.backgroundColor == 'rgb(169, 215, 81)' ||
+			selector.style.backgroundColor == 'rgb(162, 208, 73)') {
+			MusicComponents.musicSounds('../music/clicks.wav');
+		};
+
 		open(row, column);
-		MusicComponents.musicSounds('../music/clicks.wav');
 	});
 
 
-	//! flags counter + win
+	//! right click animation
 	field.addEventListener('contextmenu', (event) => {
 
 		function flagCounter() {
 			const index = cells.indexOf(event.target);
 			const selector = event.target;
-			const pullFlagsCoord = new Array();
 
 			if (bombs) {
 				if (flagsCounter > 0
@@ -143,27 +168,33 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 						MusicComponents.musicSounds('../music/tick.mp3');
 					};
 
-				} else if (flagsCounter >= 0 && selector.innerHTML == '🚩') {
+				} else if (flagsCounter >= 0 && selector.innerHTML == '🚩' &&
+					selector.style.backgroundColor !== 'rgb(228, 194, 159)' &&
+					selector.style.backgroundColor !== 'rgb(215, 184, 153)') {
 					flag.innerHTML = ++flagsCounter;
 					selector.innerHTML = '';
 					MusicComponents.musicSounds('../music/tick.mp3');
-				};
+				}
 
-				bombs.forEach(bombsLocation => {
-					flagsLocationCoords.forEach(flagsCord => {
-						if (bombsLocation === flagsCord) pullFlagsCoord.push(flagsCord);
-						if (pullFlagsCoord.length === bombs.length) {
-							endGameText.innerText = 'YOU WIN !';
-							MusicComponents.musicSounds('../music/win.mp3');
-							setTimeout(() => { window.location.reload() }, 2000);
-						}
+				function checkingFlagsSet() {
+					const pullFlagsCoord = new Array();
+					bombs.forEach(bombsLocation => {
+						flagsLocationCoords.forEach(flagsCord => {
+							if (bombsLocation === flagsCord) pullFlagsCoord.push(flagsCord);
+							if (pullFlagsCoord.length === bombs.length) {
+								endGameText.innerText = 'YOU WIN !';
+								MusicComponents.musicSounds('../music/win.mp3');
+								setTimeout(() => { window.location.reload() }, 2000);
+							}
+						});
 					});
-				});
-
+				}
+				checkingFlagsSet();
 			};
-		}
+		};
 		flagCounter();
 	});
+
 
 	function isValid(row, column) {
 		return row >= 0 && row < HEIGHT
@@ -194,22 +225,41 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 		if (index >= 0) {
 			keysPairArray.forEach(items => {
-				if (items === index) cell.style.background = '#e4c29f';
+				if (items === index) {
+					hoverClassEffectsArray.add(items);
+					cell.style.background = '#e4c29f';
+				}
 			});
 
 			keysUnpairArray.forEach(items => {
-				if (items === index) cell.style.background = '#d7b899';
+				if (items === index) {
+					hoverClassEffectsArray.add(items);
+					cell.style.background = '#d7b899';
+				}
 			});
 
-			if (getCount(row, column) == 1) cell.style.color = 'blue';
-			if (getCount(row, column) == 2) cell.style.color = 'green';
-			if (getCount(row, column) == 3) cell.style.color = 'red';
-			if (getCount(row, column) == 4) cell.style.color = 'purple';
-			if (getCount(row, column) == 5) cell.style.color = 'black';
-			if (getCount(row, column) == 6) cell.style.color = 'darkslategray';
-			if (getCount(row, column) == 7) cell.style.color = 'rgb(64, 25, 90)';
-			if (getCount(row, column) == 8) cell.style.color = 'rgb(15, 81, 119)';
+			function clearHoverEffect() {
+				if (hoverClassEffectsArray.size > 0) {
+					hoverClassEffectsArray.forEach(fieldsNumber => {
+						if (fieldsNumber === index) {
+							cell.classList.remove('fields__hover-class')
+						}
+					})
+				}
+			}
+			clearHoverEffect();
 
+			const colorNumberArray = ['blue', 'green', 'red', 'purple', 'black',
+				'darkslategray', 'rgb(64, 25, 90)', 'rgb(15, 81, 119)'];
+
+			colorNumberArray.forEach((item, index) => {
+				++index;
+				if (getCount(row, column) > 0) {
+					if (getCount(row, column) == index) {
+						cell.style.color = item;
+					}
+				}
+			});
 
 			if (isBomb(row, column)) {
 				cell.innerHTML = '💣';
@@ -224,14 +274,14 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 			if (count !== 0) {
 				cell.innerHTML = count;
 				return;
-			}
+			};
 
 			for (let x = -1; x <= 1; x++) {
 				for (let y = -1; y <= 1; y++) {
 					open(row + x, column + y);
 				}
 			}
-		}
+		};
 	}
 
 	function isBomb(row, column) {
@@ -239,6 +289,7 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 		const index = row * WIDTH + column;
 		return bombs.includes(index)
-	}
+	};
+
 }
 

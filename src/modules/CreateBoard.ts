@@ -1,9 +1,17 @@
 'use strict'
 
-import { Board } from "./Board.js";
+// import { Board } from "./Board.js";
 
 
-export class CreateBoard {
+
+/*
+class CreateBoard extends Board {
+	board: Board;
+}
+*/
+
+
+/*
 	board: Board;
 	field: any = document.querySelector('.field');
 	counter: number;
@@ -44,6 +52,4 @@ export class CreateBoard {
 			}
 		}
 	};
-}
-
-
+*/
