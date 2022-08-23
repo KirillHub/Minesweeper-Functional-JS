@@ -1,20 +1,26 @@
-'use strict';
 
 
-const field: any = document.querySelector('.field');
-const flag: any = document.querySelector('.main-title__flags-counter');
-const endGameText: any = document.querySelector('.end-game');
+export interface InitializationBoardData {
+	BOMBS_COUNT: number
+	WIDTH: number
+	HEIGHT: number
+};
 
-let cells: any = new Array();
-const keysPairArray = new Array();
-const keysUnpairArray = new Array();
+export interface InitializationDataState {
+	cellsCount: number
 
-let bombs: any;
+	field: any
+	endGameText: any
+	flag: any
 
-/*
-? later
-let flagsCounter: number = BOMBS_COUNT;
-flag.innerText = flagsCounter;
-*/
+	cells: any
+	keysPairArray: any
+	keysUnpairArray: any
+	bombs: any
+	// flagCounter: number //? потом вернёт функцию
+	flagsLocationCoords: object
+	hoverClassEffectsArray: object
 
-let flagsLocationCoords: object = new Set();
+	error: null | string
+};
+

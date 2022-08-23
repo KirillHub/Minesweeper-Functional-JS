@@ -1,9 +1,8 @@
 "use strict"
 
+// import CheckExtremeBorders from "./CheckExtremeBorders.js"
 import CheckExtremeBorders from "./CheckExtremeBorders.js"
 
-
-let app = new CheckExtremeBorders();
 
 export default function neighborsSearcher(x: number) {
 	let emptyArr = [];

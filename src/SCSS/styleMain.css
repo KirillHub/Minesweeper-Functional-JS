@@ -198,3 +198,22 @@ body{
   color: red;
   margin: -255px 0 0 0;
 }
+
+/*============================================================================================================*/
+/* buttons config*/
+.main-title__buttons {
+  margin-left:  -220px;
+  padding-right: 30px;
+}
+.buttons-config{}
+.buttons-config button {
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+.buttons-config__easy-mode {
+}
+.buttons-config__normal-mode {
+}
+.buttons-config__hard-mode {
+}

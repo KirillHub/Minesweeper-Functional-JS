@@ -1,42 +1,47 @@
 'use strict'
 
+import { gameModeStates } from "../dist/controllerDataStates.js";
+import { GameModelsStatesProperty } from "../dist/GameSettingDataConfig.js";
+import { GameBoardTest } from "../dist/gameManager.js"
+// import { GameTest } from "../dist/"
+// import { gameMode } from "../dist/GameSettingDataConfig.js";
 
+// import { abboba } from "../dist/unit.js";  //! пример
 
+export const boardConfig = {
+	width: 10,
+	height: 10,
+	bombs: 20,
+};
 
+// let numberObject;
 
-
-function getCoordPair(coord, box = { width, height }) {
-	let x = coord % box.width;
-	let y = Math.floor(coord / box.width);
-	return { width: x, height: y };
- }
-
- 
-
+console.log(GameBoardTest);
+console.log(gameModeStates[0].BOMBS_COUNT);
 
 
 /*
-export let boardConfig = {
-	width: 10,
-	height: 11,
-	bombs: 20,
+const easyGameModeStates: object = {
+	"WIDTH": 10,
+	"HEIGHT": 10,
+	"BOMBS_COUNT": 12,
 };
 */
 
 
-
-//let data = new SweeperData(config.width, config.height, config.bombs);
-//let controller = new SweeperLogic();
-
-// console.log(CreateBoard());
+const parentCurrentTargetClass = document.querySelector('.buttons-config');
 
 
 
-// console.log(board);
-// console.log(boardSetting);
-
-// const board = new CreateBoard();
-// console.log(board);
 
 
+
+/*
+const api = new GameModelsStatesProperty(gameModeStates);
+console.log(api);
+console.log(api.identificatorClassNameButton());
+*/
+
+
+// console.log(apples);
 

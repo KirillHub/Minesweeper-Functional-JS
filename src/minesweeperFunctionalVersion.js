@@ -4,19 +4,22 @@ import { timer } from '../dist/Timer.js';
 import neighborsSearcher from '../dist/neighborsSearcher.js';
 
 
-startGame(10, 10, 30);
+startGame(30, 10, 100); //10, 10
 
 function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 	document.addEventListener('contextmenu', event => event.preventDefault());
 
 	const field = document.querySelector('.field');
+
+
 	// field.addEventListener("click", function (event) { event.preventDefault(); })
 	// field.addEventListener("mousedown", function (event) { event.preventDefault(); })
 	// field.addEventListener("mouseup", function (event) { event.preventDefault(); })
 
 	const flag = document.querySelector('.main-title__flags-counter');
 	const endGameText = document.querySelector('.end-game');
+	field.childNodes
 
 	const cellsCount = WIDTH * HEIGHT; // ? delete?
 
@@ -292,4 +295,3 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	};
 
 }
-

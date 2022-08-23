@@ -1,6 +1,4 @@
-"use strict"
-
-
+'use strict'
 
 export default class CheckExtremeBorders {
 
