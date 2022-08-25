@@ -158,8 +158,8 @@ body{
 .field{
 	margin: 0 auto;
 	display: grid;
-	grid-template-columns: repeat(10, 40px);
-  outline: 20px solid rgba(126, 54, 54, 0.678);
+	grid-template-columns: repeat(15, 27px);
+  outline: 10px solid rgba(126, 54, 54, 0.678);
 
   -moz-user-select: -moz-none;
   -o-user-select: none;
@@ -170,11 +170,12 @@ body{
   /* pointer-events: none; */
   cursor: pointer;
 }
-.field div{
+.fields__cell{
   /* border: 2px solid rgb(255, 255, 255); */
 	cursor: pointer;
-	height: 40px;
-	font-size: 24px;
+  font-weight: 600;
+  height: 27px;
+	font-size: 18px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
