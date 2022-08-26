@@ -1,129 +1,33 @@
 'use strict';
 
 import { timer } from '../dist/Timer.js';
-// import neighborsSearcher from '../dist/neighborsSearcher.js';
+import { arrayGameModeStates } from "../src/gameStatesFuncVersion/gameStatesData.js"
+import { activatorGameStatesMode } from "../src/gameStatesFuncVersion/activatorGameDataStates.js"
 
 
-/*
-! DATA SETTINGS:
-	Лёгкий уровень - все знач. на 10, бомб - 12
-	Средний 15, 15, бомб - 35 (grid размер блоков 30-35)
+startGame(arrayGameModeStates[1].WIDTH,
+	arrayGameModeStates[1].HEIGHT,
+	arrayGameModeStates[1].BOMBS_COUNT);
 
-
-	!Обязательно - randomMinesIndex - не забудь пределы ген рандомных чисел 
-	в зависимости от кол-ва клеток
-
-	TODO: зависимость от кнопок
-	TODO: first task -> сделать привязку события от кнопки "Easy"
- */
-
-const field = document.querySelector('.field');
-
-const easyGameMode = { //! right data!
-	"WIDTH": 10,
-	"HEIGHT": 10,
-	"BOMBS_COUNT": 12,
-	"font-size": "25px",
-	"grid-template-columns": "repeat(10, 40px)",
-	".fields__cell height": "40px",
-	"randomizerMinesIndex": "0-99"
-};
-
-
-const normalGameMode = {  //! right data!
-	"WIDTH": 15,
-	"HEIGHT": 15,
-	"BOMBS_COUNT": 35,
-	"font-size": "18px",
-	"grid-template-columns": "repeat(15, 27px)",
-	".fields__cell height": "27px",
-	"randomizerMinesIndex": "0-224"
-};
-const hardGameMode = {  //! right data!
-	"WIDTH": 20,
-	"HEIGHT": 20,
-	"BOMBS_COUNT": 80,
-	"font-size": "16px", // ? cheking
-	"grid-template-columns": "repeat(20, 23px)",  //? later need test size
-	".fields__cell height": "23px",  //? later need test size
-	"randomizerMinesIndex": "0-399"
-};
-
-//! переменная индекса массива TODO: меняется в зависимости от режима 
-// -> пулл номеров от 0-2 
-
-//1 по умолчанию (т.е. noraml mode)
-const arrayGameModeStates = [easyGameMode, normalGameMode, hardGameMode];
-
-// startGame(arrayGameModeStates[1].WIDTH,
-// 	arrayGameModeStates[1].HEIGHT,
-// 	arrayGameModeStates[1].BOMBS_COUNT);
-
-// if ()
-
-console.log(document.querySelector('.buttons-config').addEventListener('click', event => {
-
-	let indexArrayGameModeStates;
-	console.log(event.target);
-	if (event.target.textContent === 'Easy') {
-		indexArrayGameModeStates = 0;
-		console.log('easy');
-		startGame(arrayGameModeStates[indexArrayGameModeStates].WIDTH,
-			arrayGameModeStates[indexArrayGameModeStates].HEIGHT,
-			arrayGameModeStates[indexArrayGameModeStates].BOMBS_COUNT);
-
-
-
-	} else if (event.target.textContent === 'Normal') {
-		indexArrayGameModeStates = 1;
-		console.log('normal');
-		startGame(arrayGameModeStates[indexArrayGameModeStates].WIDTH,
-			arrayGameModeStates[indexArrayGameModeStates].HEIGHT,
-			arrayGameModeStates[indexArrayGameModeStates].BOMBS_COUNT);
-
-	} else if (event.target.textContent === 'Hard') {
-		indexArrayGameModeStates = 2;
-		console.log('hard');
-		startGame(arrayGameModeStates[indexArrayGameModeStates].WIDTH,
-			arrayGameModeStates[indexArrayGameModeStates].HEIGHT,
-			arrayGameModeStates[indexArrayGameModeStates].BOMBS_COUNT);
-	}
-
-
-	// startGame(arrayGameModeStates[indexArrayGameModeStates].WIDTH,
-	// 	arrayGameModeStates[indexArrayGameModeStates].HEIGHT,
-	// 	arrayGameModeStates[indexArrayGameModeStates].BOMBS_COUNT);
-}, { once: true }));
-
-// console.log(indexArrayGameModeStates);
-
+activatorGameStatesMode(startGame);
 
 
 function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 	document.addEventListener('contextmenu', event => event.preventDefault());
 
-
-	const fieldsCellSettingsClass = document.querySelector('.fields__cell');
-
-
-
-	// field.addEventListener("click", function (event) { event.preventDefault(); })
-	// field.addEventListener("mousedown", function (event) { event.preventDefault(); })
-	// field.addEventListener("mouseup", function (event) { event.preventDefault(); })
-
 	const flag = document.querySelector('.main-title__flags-counter');
 	const endGameText = document.querySelector('.end-game');
+	const field = document.querySelector('.field');
 
-
-	const cellsCount = WIDTH * HEIGHT; // ? delete?
+	const cellsCount = WIDTH * HEIGHT;
+	const countFieldsChildrenBlocks = cellsCount; 	// отвечает за макс диапазон при рандомизации мин по индексам
 
 	let cells = [];
 	const keysPairArray = [];
 	const keysUnpairArray = [];
 
 	let bombs;
-
 
 	let flagsCounter = BOMBS_COUNT;
 	flag.innerText = flagsCounter;
@@ -133,7 +37,6 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 
 
-	// two colors for board
 	function board() {
 		let counter = -1;
 
@@ -149,13 +52,13 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 				if (number % 2 === 0) {
 					pairMaskBlock.style.backgroundColor = '#a9d751';
-					pairMaskBlock.textContent = counter;
+					// pairMaskBlock.textContent = counter;
 					field.append(pairMaskBlock);
 					keysPairArray.push(counter);
 				}
 				if (number % 2 !== 0) {
 					unpairMaskBlock.style.backgroundColor = '#a2d049';
-					unpairMaskBlock.textContent = counter;
+					// unpairMaskBlock.textContent = counter;
 					field.append(unpairMaskBlock);
 					keysUnpairArray.push(counter);
 				}
@@ -164,50 +67,6 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 		}
 	}
 	board();
-
-
-	/*============================================================================================================*/
-	// отвечает за макс диапазон при рандомизации мин по индексам
-	let countFieldsChildrenBlocks = cells.length;
-	console.log(countFieldsChildrenBlocks);
-
-
-
-	//! activaite buttons 
-	//? button which activate game state 
-	const buttonsParentDiv = document.querySelector('.buttons-config');
-	const fieldStyle = field.style;
-
-	buttonsParentDiv.addEventListener('click', event => {
-		cells.forEach(item => {
-			const selectorFiedlChildren = item.style;
-
-			if (event.target.classList.contains('buttons-config__easy-mode')) {
-				console.log(`here - easy`);
-				fieldStyle.setProperty('grid-template-columns', `repeat(10, 40px)`);
-				selectorFiedlChildren.display = "grid";
-				selectorFiedlChildren.fontSize = "25px";
-				selectorFiedlChildren.height = "40px";
-			};
-			if (event.target.classList.contains('buttons-config__normal-mode')) {
-				console.log(`here - normal`);
-				fieldStyle.setProperty('grid-template-columns', `repeat(15, 27px)`);
-				selectorFiedlChildren.fontSize = "18px";
-				selectorFiedlChildren.height = "27px";
-			};
-			if (event.target.classList.contains('buttons-config__hard-mode')) {
-				console.log(`here - hard`);
-				fieldStyle.setProperty('grid-template-columns', `repeat(20, 23px)`);
-				selectorFiedlChildren.fontSize = "16px";
-				selectorFiedlChildren.height = "23px";
-			}
-		});
-	});
-
-
-
-	/*============================================================================================================*/
-
 
 	//? sounds effects
 	class MusicComponents {
@@ -258,7 +117,7 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 		arrayBombNeighboursOnFirstClick.forEach(neighbors => setObjectOfRandomMines.add(neighbors));
 
 		do {
-			setObjectOfRandomMines.add(randomizerMinesIndex(0, countFieldsChildrenBlocks)); //! (0,99) || (0, 224) || (0, 528)
+			setObjectOfRandomMines.add(randomizerMinesIndex(0, countFieldsChildrenBlocks));
 		} while (setObjectOfRandomMines.size < (BOMBS_COUNT + arrayBombNeighboursOnFirstClick.length)
 			&& setObjectOfRandomMines.size <= countFieldsChildrenBlocks);
 
