@@ -6,7 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="../src/SCSS/styleMain.css">
 	<link rel="shortcut icon" href="#">
-	<title>Quantum Sapper</title>
+	<script src="../src/modules/timer.js"> </script>
+	<title>Minesweeper</title>
 </head>
 
 <body>
@@ -18,9 +19,9 @@
 			<div class="main-block__main-title main-title">
 
 				<div class="main-title__buttons buttons-config">
-					<button class="buttons-config__easy-mode">Easy</button>
-					<button class="buttons-config__normal-mode">Normal</button>
-					<button class="buttons-config__hard-mode">Hard</button>
+					<button class="buttons-config__easy-mode" onclick="reseterTimer()">Easy</button>
+					<button class="buttons-config__normal-mode" onclick="reseterTimer()">Normal</button>
+					<button class="buttons-config__hard-mode" onclick="reseterTimer()">Hard</button>
 				</div>
 
 				<div class="main-title__flag-block">
@@ -35,10 +36,8 @@
 
 			</div>
 
-			<!-- <div class="main-board"></div> -->
-			<!-- <div class="board-sapper board"></div> -->
 			<div class="main-field">
-				<div class="field" draggable="true"></div>
+				<div class="field" draggable="true" onclick="timer()"></div>
 			</div>
 
 			<div class="end-game"></div>
@@ -55,6 +54,7 @@
 
 <!-- <script src="./App.test.js"></script> -->
 <script type="module" src="../src/minesweeperFunctionalVersion.js"></script>
+
 <!-- <script type="module" src="../src/testVersion.js"></script> -->
 <!-- <script type="module" src="../src/App.test.js"> </script> -->
 

@@ -1,8 +1,11 @@
 "use srtict";
-export function timer() {
+
+let interval;
+let second = 0;
+
+function timer() {
 	let timer = document.querySelector('.main-title__timer-time');
-	let interval;
-	let second = 0;
+
 	function reseter() {
 		clearInterval(interval);
 		interval = setInterval(runningTimer, 1000);
@@ -23,3 +26,8 @@ export function timer() {
 	};
 	reseter();
 };
+
+
+function reseterTimer() {
+	return clearInterval(interval);
+}

@@ -1,6 +1,6 @@
 'use strict';
 
-import { timer } from '../src/modules/timer.js';
+// import { timer } from '../src/modules/timer.js';
 import { arrayGameModeStates } from "../src/modules/gameStatesData.js";
 import { activatorGameStatesMode } from "../src/modules/activatorGameDataStates.js";
 
@@ -35,7 +35,6 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	let flagsLocationCoords = new Set();
 
 	let hoverClassEffectsArray = new Set();
-
 
 	function board() {
 		let counter = -1;
@@ -84,7 +83,6 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 		if (event.target.tagName !== 'DIV') return;
 
 		bombsAnimation();
-		// timer();
 		MusicComponents.musicSounds('../music/first-click.wav');
 		return
 	}, { once: true });
@@ -139,10 +137,14 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 	//? click's animation
 	field.addEventListener('click', (event) => {
+		event.preventDefault();
+
 		const selector = event.target;
 		const index = cells.indexOf(selector);
 		const column = index % WIDTH;
 		const row = Math.floor(index / WIDTH);
+
+		console.log(event.target);
 
 		field.addEventListener("mousedown", function (event) { event.preventDefault(); });
 		field.addEventListener("mouseup", function (event) { event.preventDefault(); });
@@ -160,61 +162,64 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 	// right click animation
 	field.addEventListener('contextmenu', (event) => {
-
-		function flagCounter() {
-			const index = cells.indexOf(event.target);
-			const selector = event.target;
-
-			if (bombs) {
-				if (flagsCounter > 0
-					&& selector.style.backgroundColor !== 'rgb(228, 194, 159)'
-					&& selector.style.backgroundColor !== 'rgb(215, 184, 153)') {
-
-					if (selector.innerHTML !== '🚩') {
-						flag.innerHTML = --flagsCounter;
-						selector.innerHTML = '🚩';
-						MusicComponents.musicSounds('../music/tick.mp3');
-						flagsLocationCoords.add(index);
-
-					} else if (selector.innerHTML == '🚩') {
-						flag.innerHTML = ++flagsCounter;
-						selector.innerHTML = '';
-						MusicComponents.musicSounds('../music/tick.mp3');
-						flagsLocationCoords.delete(index);
-
-					} else if (flagsCounter === 1 && selector.innerHTML == '🚩') {
-						flagsCounter++;
-						selector.innerHTML = '';
-						MusicComponents.musicSounds('../music/tick.mp3');
-					};
-
-				} else if (flagsCounter >= 0 && selector.innerHTML == '🚩' &&
-					selector.style.backgroundColor !== 'rgb(228, 194, 159)' &&
-					selector.style.backgroundColor !== 'rgb(215, 184, 153)') {
-					flag.innerHTML = ++flagsCounter;
-					selector.innerHTML = '';
-					MusicComponents.musicSounds('../music/tick.mp3');
-				}
-
-				function checkingFlagsSet() {
-					const pullFlagsCoord = new Array();
-					bombs.forEach(bombsLocation => {
-						flagsLocationCoords.forEach(flagsCord => {
-							if (bombsLocation === flagsCord) pullFlagsCoord.push(flagsCord);
-							if (pullFlagsCoord.length === bombs.length) {
-								endGameText.innerText = 'YOU WIN !';
-								MusicComponents.musicSounds('../music/win.mp3');
-								setTimeout(() => { window.location.reload() }, 2000);
-							}
-						});
-					});
-				}
-				checkingFlagsSet();
-			};
-		};
+		event.preventDefault();
 		flagCounter();
 	});
 
+	function flagCounter() {
+		const index = cells.indexOf(event.target);
+		const selector = event.target;
+
+		// console.log(selector.style.textContent);
+		console.log(selector);
+
+		if (bombs) {
+			if (flagsCounter > 0
+				&& selector.style.backgroundColor !== 'rgb(228, 194, 159)'
+				&& selector.style.backgroundColor !== 'rgb(215, 184, 153)') {
+
+				if (selector.innerHTML !== '🚩') {
+					flag.innerHTML = --flagsCounter;
+					selector.innerHTML = '🚩';
+					MusicComponents.musicSounds('../music/tick.mp3');
+					flagsLocationCoords.add(index);
+
+				} else if (selector.innerHTML == '🚩') {
+					flag.innerHTML = ++flagsCounter;
+					selector.innerHTML = '';
+					MusicComponents.musicSounds('../music/tick.mp3');
+					flagsLocationCoords.delete(index);
+
+				} else if (flagsCounter === 1 && selector.innerHTML == '🚩') {
+					flagsCounter++;
+					selector.innerHTML = '';
+					MusicComponents.musicSounds('../music/tick.mp3');
+				};
+
+			} else if (flagsCounter >= 0 && selector.innerHTML == '🚩' &&
+				selector.style.backgroundColor !== 'rgb(228, 194, 159)' &&
+				selector.style.backgroundColor !== 'rgb(215, 184, 153)') {
+				flag.innerHTML = ++flagsCounter;
+				selector.innerHTML = '';
+				MusicComponents.musicSounds('../music/tick.mp3');
+			} else return //? 
+
+			function checkingFlagsSet() {
+				const pullFlagsCoord = new Array();
+				bombs.forEach(bombsLocation => {
+					flagsLocationCoords.forEach(flagsCord => {
+						if (bombsLocation === flagsCord) pullFlagsCoord.push(flagsCord);
+						if (pullFlagsCoord.length === bombs.length) {
+							endGameText.innerText = 'YOU WIN !';
+							MusicComponents.musicSounds('../music/win.mp3');
+							setTimeout(() => { window.location.reload() }, 2000);
+						}
+					});
+				});
+			}
+			checkingFlagsSet();
+		};
+	};
 
 	function isValid(row, column) {
 		return row >= 0 && row < HEIGHT

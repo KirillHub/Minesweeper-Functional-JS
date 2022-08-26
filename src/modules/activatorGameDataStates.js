@@ -1,26 +1,45 @@
 "use strict";
 
 import { arrayGameModeStates } from "./gameStatesData.js";
-import { timer } from "./timer.js";
 
-export function activatorGameStatesMode(funcName) {
+export function activatorGameStatesMode(startGameActive) {
 	const buttonsParentDiv = document.querySelector('.buttons-config');
 	const field = document.querySelector('.field');
 	const fieldStyle = field.style;
 
-	buttonsParentDiv.addEventListener('click', event => {
+	buttonsParentDiv.addEventListener('click', function selectButton(event) {
 		let indexArrayGameModeStates;
+		if (event.target.tagName !== "BUTTON") return;
+
+		// field.childNodes(forEach(item => {
+		// 	console.log(item);
+		// }))
+
+		/*
+		? классы удалять пытался, не помогло
+		field.childNodes.forEach(item => {
+			console.log(item);
+			item.classList.remove("fields__cell");
+			item.classList.remove("fields__hover-class");
+		})
+		*/
 
 		while (field.hasChildNodes()) {
 			field.removeChild(field.firstChild)
+			// field.removeChild(field.childElementCount)
+			// field.removeChild(field.ELEMENT_NODE)
+			// field.remove('')
 		};
+
 
 		if (event.target.textContent === 'Easy') {
 			indexArrayGameModeStates = 0;
 
-			funcName(arrayGameModeStates[indexArrayGameModeStates].WIDTH,
+			startGameActive(arrayGameModeStates[indexArrayGameModeStates].WIDTH,
 				arrayGameModeStates[indexArrayGameModeStates].HEIGHT,
 				arrayGameModeStates[indexArrayGameModeStates].BOMBS_COUNT);
+
+			// console.log(field.childNodes);
 
 			fieldStyle.setProperty('grid-template-columns', `repeat(10, 40px)`);
 
@@ -29,13 +48,13 @@ export function activatorGameStatesMode(funcName) {
 				item.style.height = "40px";
 			});
 
-			if (timer){ return timer()} else timer
-
+			// buttonsParentDiv.removeEventListener('click', abc)
+			// buttonsParentDiv.removeEventListener('click', event => {});
 
 		} else if (event.target.textContent === 'Normal') {
 			indexArrayGameModeStates = 1;
 
-			funcName(arrayGameModeStates[indexArrayGameModeStates].WIDTH,
+			startGameActive(arrayGameModeStates[indexArrayGameModeStates].WIDTH,
 				arrayGameModeStates[indexArrayGameModeStates].HEIGHT,
 				arrayGameModeStates[indexArrayGameModeStates].BOMBS_COUNT);
 
@@ -44,7 +63,7 @@ export function activatorGameStatesMode(funcName) {
 		} else if (event.target.textContent === 'Hard') {
 			indexArrayGameModeStates = 2;
 
-			funcName(arrayGameModeStates[indexArrayGameModeStates].WIDTH,
+			startGameActive(arrayGameModeStates[indexArrayGameModeStates].WIDTH,
 				arrayGameModeStates[indexArrayGameModeStates].HEIGHT,
 				arrayGameModeStates[indexArrayGameModeStates].BOMBS_COUNT);
 
@@ -55,5 +74,7 @@ export function activatorGameStatesMode(funcName) {
 				item.style.height = "23px";
 			});
 		};
+		// buttonsParentDiv.removeEventListener('click', selectButton)
 	});
+
 };
