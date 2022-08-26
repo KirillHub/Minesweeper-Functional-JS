@@ -1,6 +1,7 @@
 "use strict";
 
-import { arrayGameModeStates } from "./gameStatesData.js"
+import { arrayGameModeStates } from "./gameStatesData.js";
+import { timer } from "./timer.js";
 
 export function activatorGameStatesMode(funcName) {
 	const buttonsParentDiv = document.querySelector('.buttons-config');
@@ -28,6 +29,9 @@ export function activatorGameStatesMode(funcName) {
 				item.style.height = "40px";
 			});
 
+			if (timer){ return timer()} else timer
+
+
 		} else if (event.target.textContent === 'Normal') {
 			indexArrayGameModeStates = 1;
 
@@ -51,7 +55,5 @@ export function activatorGameStatesMode(funcName) {
 				item.style.height = "23px";
 			});
 		};
-
 	});
-
 };

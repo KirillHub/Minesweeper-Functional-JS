@@ -1,8 +1,8 @@
 'use strict';
 
-import { timer } from '../dist/Timer.js';
-import { arrayGameModeStates } from "../src/gameStatesFuncVersion/gameStatesData.js"
-import { activatorGameStatesMode } from "../src/gameStatesFuncVersion/activatorGameDataStates.js"
+import { timer } from '../src/modules/timer.js';
+import { arrayGameModeStates } from "../src/modules/gameStatesData.js";
+import { activatorGameStatesMode } from "../src/modules/activatorGameDataStates.js";
 
 
 startGame(arrayGameModeStates[1].WIDTH,
@@ -21,7 +21,8 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	const field = document.querySelector('.field');
 
 	const cellsCount = WIDTH * HEIGHT;
-	const countFieldsChildrenBlocks = cellsCount; 	// отвечает за макс диапазон при рандомизации мин по индексам
+	// responsible for the max range when randomizing min by index
+	const countFieldsChildrenBlocks = cellsCount;
 
 	let cells = [];
 	const keysPairArray = [];
@@ -34,7 +35,6 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	let flagsLocationCoords = new Set();
 
 	let hoverClassEffectsArray = new Set();
-
 
 
 	function board() {
@@ -84,8 +84,9 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 		if (event.target.tagName !== 'DIV') return;
 
 		bombsAnimation();
-		timer();
+		// timer();
 		MusicComponents.musicSounds('../music/first-click.wav');
+		return
 	}, { once: true });
 
 
@@ -128,6 +129,7 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 		return bombs = bombsRandomArrayGenerated;
 	};
 
+
 	function randomizerMinesIndex(minArrayIndex, maxArrayIndex) {
 		minArrayIndex = Math.ceil(minArrayIndex);
 		maxArrayIndex = Math.floor(maxArrayIndex);
@@ -156,7 +158,7 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	});
 
 
-	//! right click animation
+	// right click animation
 	field.addEventListener('contextmenu', (event) => {
 
 		function flagCounter() {
@@ -281,15 +283,12 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 			if (isBomb(row, column)) {
 
+				cell.innerHTML = '💣';
 
-				return cell.innerHTML = '💣'; //! потом убрать return
-				/*
-				! анимация проигрыша
 				MusicComponents.musicSounds('../music/beep-bomb.mp3');
 				endGameText.innerText = 'YOU LOSE!';
 				setTimeout(() => { window.location.reload() }, 1500);
 				return;
-				*/
 			}
 
 			const count = getCount(row, column);
