@@ -1,34 +1,19 @@
 "use strict";
 
-import { arrayGameModeStates } from "./gameStatesData.js";
+// import { arrayGameModeStates } from "./gameStatesData.js";
+// import { starterGamer } from "../modules/test.js"
 
 export function activatorGameStatesMode(startGameActive) {
 	const buttonsParentDiv = document.querySelector('.buttons-config');
 	const field = document.querySelector('.field');
 	const fieldStyle = field.style;
 
-	buttonsParentDiv.addEventListener('click', function selectButton(event) {
+	buttonsParentDiv.addEventListener('click', event => {
 		let indexArrayGameModeStates;
 		if (event.target.tagName !== "BUTTON") return;
 
-		// field.childNodes(forEach(item => {
-		// 	console.log(item);
-		// }))
-
-		/*
-		? классы удалять пытался, не помогло
-		field.childNodes.forEach(item => {
-			console.log(item);
-			item.classList.remove("fields__cell");
-			item.classList.remove("fields__hover-class");
-		})
-		*/
-
 		while (field.hasChildNodes()) {
 			field.removeChild(field.firstChild)
-			// field.removeChild(field.childElementCount)
-			// field.removeChild(field.ELEMENT_NODE)
-			// field.remove('')
 		};
 
 
@@ -39,8 +24,6 @@ export function activatorGameStatesMode(startGameActive) {
 				arrayGameModeStates[indexArrayGameModeStates].HEIGHT,
 				arrayGameModeStates[indexArrayGameModeStates].BOMBS_COUNT);
 
-			// console.log(field.childNodes);
-
 			fieldStyle.setProperty('grid-template-columns', `repeat(10, 40px)`);
 
 			field.childNodes.forEach(item => {
@@ -48,8 +31,6 @@ export function activatorGameStatesMode(startGameActive) {
 				item.style.height = "40px";
 			});
 
-			// buttonsParentDiv.removeEventListener('click', abc)
-			// buttonsParentDiv.removeEventListener('click', event => {});
 
 		} else if (event.target.textContent === 'Normal') {
 			indexArrayGameModeStates = 1;
@@ -74,7 +55,8 @@ export function activatorGameStatesMode(startGameActive) {
 				item.style.height = "23px";
 			});
 		};
-		// buttonsParentDiv.removeEventListener('click', selectButton)
+
+		return startGameActive
 	});
 
 };

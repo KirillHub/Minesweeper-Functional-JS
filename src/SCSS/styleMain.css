@@ -203,8 +203,9 @@ body{
 /*============================================================================================================*/
 /* buttons config*/
 .main-title__buttons {
-  margin-left:  -220px;
-  padding-right: 30px;
+  margin-left:  -100px;
+  padding-right: 70px;
+  
 }
 .buttons-config{}
 .buttons-config button {
