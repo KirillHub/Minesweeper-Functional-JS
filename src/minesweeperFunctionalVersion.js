@@ -5,67 +5,12 @@
 // import { activatorGameStatesMode } from "../src/modules/activatorGameDataStates.js";
 
 
-
-
-
-const easyGameMode = {
-	"WIDTH": 10,
-	"HEIGHT": 10,
-	"BOMBS_COUNT": 12,
-};
-
-const normalGameMode = {
-	"WIDTH": 15,
-	"HEIGHT": 15,
-	"BOMBS_COUNT": 35,
-};
-
-const hardGameMode = {
-	"WIDTH": 20,
-	"HEIGHT": 20,
-	"BOMBS_COUNT": 80,
-};
-
-
-const arrayGameModeStates = [easyGameMode, normalGameMode, hardGameMode];
-
-const buttonsParentDiv = document.querySelector('.buttons-config');
-const field = document.querySelector('.field');
-const fieldStyle = field.style;
-
-let i = 0;
-
-
-/*
-buttonsParentDiv.addEventListener('click', function an(event) {
-	// if (event.target.textContent === 'Easy')
-
-	if (event.target.textContent === '1') {
-		console.log("here");
-	}
-
-});
-*/
-
-
-
-
-// startGame(arrayGameModeStates[i].WIDTH,
-// 	arrayGameModeStates[i].HEIGHT,
-// 	arrayGameModeStates[i].BOMBS_COUNT)
-
 startGame(15, 15, 35);
-
-
-/*============================================================================================================*/
 
 
 function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
-	if (!WIDTH, !HEIGHT, !BOMBS_COUNT) {
-		console.log('here !!!');
-		return
-	}
+	if (!WIDTH, !HEIGHT, !BOMBS_COUNT) return;
 
 	document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -73,129 +18,64 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	const endGameText = document.querySelector('.end-game');
 	const field = document.querySelector('.field');
 
-	const cellsCount = WIDTH * HEIGHT;
-	// responsible for the max range when randomizing min by index
-
-
-
 	let cells = [];
-
 	const keysPairArray = [];
 	const keysUnpairArray = [];
-
 	let bombs;
-
 	let flagsCounter = BOMBS_COUNT;
 	flag.innerText = flagsCounter;
 	let flagsLocationCoords = new Set();
-
 	let hoverClassEffectsArray = new Set();
-
-	//! next version
-
-	// const fieldStyle = field.style;
-
-
-	// let countFieldsChildrenBlocks = cells.length;
-	// let countFieldsChildrenBlocks = 32;
-
 
 	function board() {
 		const buttonsParentDiv = document.querySelector('.buttons-config');
 		const fieldStyle = field.style;
+		// fieldStyle.outline = "10px solid rgba(126, 54, 54, 0.678)";
 
-		//? создание доски по умолчанию (normal)
+		let counter = -1;
 
+		for (let i = 0; i < WIDTH; i++) {
+			for (let j = 0; j < HEIGHT; j++) {
+				counter++;
+				let number = i + j + 2;
+				const unpairMaskBlock = document.createElement('div');
+				const pairMaskBlock = document.createElement('div');
+
+				unpairMaskBlock.classList.add('fields__hover-class', "fields__cell");
+				pairMaskBlock.classList.add('fields__hover-class', "fields__cell");
+
+				if (number % 2 === 0) {
+					pairMaskBlock.style.backgroundColor = '#a9d751';
+					// pairMaskBlock.textContent = counter;
+					field.append(pairMaskBlock);
+					keysPairArray.push(counter);
+				}
+				if (number % 2 !== 0) {
+					unpairMaskBlock.style.backgroundColor = '#a2d049';
+					// unpairMaskBlock.textContent = counter;
+					field.append(unpairMaskBlock);
+					keysUnpairArray.push(counter);
+				}
+				cells = [...field.children];
+			}
+		}
 
 		buttonsParentDiv.addEventListener('click', event => {
 
 			while (field.hasChildNodes()) {
-				field.removeChild(field.firstChild)
+				field.removeChild(field.firstChild);
 			};
-
-			let counter = -1;
-
-			for (let i = 0; i < WIDTH; i++) {
-				for (let j = 0; j < HEIGHT; j++) {
-					counter++;
-					const number = i + j + 2;
-					const unpairMaskBlock = document.createElement('div');
-					const pairMaskBlock = document.createElement('div');
-
-					unpairMaskBlock.classList.add('fields__hover-class', "fields__cell");
-					pairMaskBlock.classList.add('fields__hover-class', "fields__cell");
-
-					if (number % 2 === 0) {
-						pairMaskBlock.style.backgroundColor = '#a9d751';
-						// pairMaskBlock.textContent = counter;
-						field.append(pairMaskBlock);
-						keysPairArray.push(counter);
-					}
-					if (number % 2 !== 0) {
-						unpairMaskBlock.style.backgroundColor = '#a2d049';
-						// unpairMaskBlock.textContent = counter;
-						field.append(unpairMaskBlock);
-						keysUnpairArray.push(counter);
-					}
-					cells = [...field.children];
-					console.log(cells);
-				}
-			}
-
-
-			/*
-				if (event.target.textContent === 'Normal') {
-					let counter = -1
-					// window.location.reload();
-	
-					for (let i = 0; i < WIDTH; i++) {
-						for (let j = 0; j < HEIGHT; j++) {
-							counter++;
-							const number = i + j + 2;
-							const unpairMaskBlock = document.createElement('div');
-							const pairMaskBlock = document.createElement('div');
-	
-							unpairMaskBlock.classList.add('fields__hover-class', "fields__cell");
-							pairMaskBlock.classList.add('fields__hover-class', "fields__cell");
-	
-							if (number % 2 === 0) {
-								pairMaskBlock.style.backgroundColor = '#a9d751';
-								// pairMaskBlock.textContent = counter;
-								field.append(pairMaskBlock);
-								keysPairArray.push(counter);
-							}
-							if (number % 2 !== 0) {
-								unpairMaskBlock.style.backgroundColor = '#a2d049';
-								// unpairMaskBlock.textContent = counter;
-								field.append(unpairMaskBlock);
-								keysUnpairArray.push(counter);
-							}
-							if (cells.length !== 0) {
-								cells = 0;
-							}
-							cells = [...field.children];
-						}
-					};
-	
-					fieldStyle.setProperty('grid-template-columns', `repeat(15, 27px)`);
-	
-					field.childNodes.forEach(item => {
-						item.style.fontSize = "22px";
-						item.style.height = "27px";
-					});
-					} 
-			*/
 
 			if (event.target.textContent === 'Easy') {
 				let counter = -1;
-				flag.innerHTML = 10; //! брать потом кл-во бомб из innerHTML
-
+				console.log(counter);
+				flag.innerHTML = 10;
 				WIDTH = 10; HEIGHT = 10; BOMBS_COUNT = 12;
 
 				for (let i = 0; i < WIDTH; i++) {
 					for (let j = 0; j < HEIGHT; j++) {
 						counter++;
-						const number = i + j + 2;
+						let number = i + j + 2;
 						const unpairMaskBlock = document.createElement('div');
 						const pairMaskBlock = document.createElement('div');
 
@@ -226,20 +106,21 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 					item.style.fontSize = "30px";
 					item.style.height = "40px";
 				});
-
 			} else if (event.target.textContent === 'Normal') {
 				window.location.reload();
-
-			} else if (event.target.textContent === 'Hard') {
+			}
+			/*
+			else if (event.target.textContent === 'Hard') {
 				let counter = -1;
-				flag.innerHTML = 80; //! брать потом кл-во бомб из innerHTML
+				console.log(counter);
+				flag.innerHTML = 80;
 
-				WIDTH = 20; HEIGHT = 20; BOMBS_COUNT = 80;
+				WIDTH = 20; HEIGHT = 20; 
 
 				for (let i = 0; i < WIDTH; i++) {
 					for (let j = 0; j < HEIGHT; j++) {
 						counter++;
-						const number = i + j + 2;
+						let number = i + j + 2;
 						const unpairMaskBlock = document.createElement('div');
 						const pairMaskBlock = document.createElement('div');
 
@@ -265,6 +146,7 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 					}
 				};
 
+
 				fieldStyle.setProperty('grid-template-columns', `repeat(20, 23px)`);
 
 				field.childNodes.forEach(item => {
@@ -272,9 +154,8 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 					item.style.height = "23px";
 				});
 			}
-
+			*/
 		});
-
 	}
 	board();
 
@@ -295,12 +176,13 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 		bombsAnimation();
 		MusicComponents.musicSounds('../music/first-click.wav');
-		return
 	}, { once: true });
 
 
 	function bombsAnimation() {
+
 		const index = cells.indexOf(event.target);
+		// console.log(cells);
 		let bombsRandomArrayGenerated = new Array();
 		let arrayBombNeighboursOnFirstClick = new Array();
 		let setObjectOfRandomMines = new Set();
@@ -326,22 +208,21 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 
 		arrayBombNeighboursOnFirstClick.forEach(neighbors => setObjectOfRandomMines.add(neighbors));
 
-		// console.log(typeof ); //! countFieldsChildrenBlocks
-		countFieldsChildrenBlocks = 200 //! del
-		console.log(flag.innerHTML);
+		let countFieldsChildrenBlocks1 = cells.length;
 
 		do {
-			setObjectOfRandomMines.add(randomizerMinesIndex(0, +flag.innerHTML));
+			setObjectOfRandomMines.add(randomizerMinesIndex(0, countFieldsChildrenBlocks1));
 		} while (setObjectOfRandomMines.size < (BOMBS_COUNT + arrayBombNeighboursOnFirstClick.length)
-			&& setObjectOfRandomMines.size <= +flag.innerHTML);
+			&& setObjectOfRandomMines.size <= countFieldsChildrenBlocks1);
 
 		setObjectOfRandomMines.forEach(item => bombsRandomArrayGenerated.push(item));
 
 		bombsRandomArrayGenerated = bombsRandomArrayGenerated
 			.slice(arrayBombNeighboursOnFirstClick.length, bombsRandomArrayGenerated.length);
-		return bombs = bombsRandomArrayGenerated;
+		console.log(bombsRandomArrayGenerated);
+		bombs = bombsRandomArrayGenerated;
+		return
 	};
-
 
 	function randomizerMinesIndex(minArrayIndex, maxArrayIndex) {
 		minArrayIndex = Math.ceil(minArrayIndex);
@@ -385,9 +266,6 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 		const index = cells.indexOf(event.target);
 		const selector = event.target;
 
-		// console.log(selector.style.textContent);
-		console.log(selector);
-
 		if (bombs) {
 			if (flagsCounter > 0
 				&& selector.style.backgroundColor !== 'rgb(228, 194, 159)'
@@ -417,7 +295,9 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 				flag.innerHTML = ++flagsCounter;
 				selector.innerHTML = '';
 				MusicComponents.musicSounds('../music/tick.mp3');
-			} else return //? 
+			} else return
+
+			console.log(flagsLocationCoords);
 
 			function checkingFlagsSet() {
 				const pullFlagsCoord = new Array();
@@ -512,7 +392,6 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 			}
 
 			const count = getCount(row, column);
-
 			if (count !== 0) {
 				cell.innerHTML = count;
 				return;
