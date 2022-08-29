@@ -19,4 +19,3 @@ const hardGameMode = {
 };
 
 export const arrayGameModeStates = [easyGameMode, normalGameMode, hardGameMode];
-
