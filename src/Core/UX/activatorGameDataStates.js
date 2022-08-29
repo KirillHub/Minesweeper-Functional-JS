@@ -30,6 +30,8 @@ export function activatorGameStatesMode(startGameActive) {
 				item.style.height = "40px";
 			});
 
+			// globalGameData.isFistClickEmplement = true;
+
 		} else if (event.target.textContent === 'Normal') {
 			indexArrayGameModeStates = 1;
 

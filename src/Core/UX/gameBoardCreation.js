@@ -5,8 +5,8 @@ import { GlobalGameData } from "../GameGlobalData/GameGlobalData.js";
 export function createBoard(WIDTH, HEIGHT, BOMBS_COUNT) {
 	const globalGameData = new GlobalGameData();
 	console.log([WIDTH, HEIGHT, BOMBS_COUNT]);
-	const keysPairArray = [];
-	const keysUnpairArray = [];
+	// const keysPairArray = [];
+	// const keysUnpairArray = [];
 	let counter = -1;
 
 	if (counter !== -1) counter = -1;  //? предосторожность (потом убрать)
@@ -25,13 +25,13 @@ export function createBoard(WIDTH, HEIGHT, BOMBS_COUNT) {
 				pairMaskBlock.style.backgroundColor = '#a9d751';
 				// pairMaskBlock.textContent = counter;
 				globalGameData.field.append(pairMaskBlock);
-				keysPairArray.push(counter);
+				// keysPairArray.push(counter);
 			}
 			if (number % 2 !== 0) {
 				unpairMaskBlock.style.backgroundColor = '#a2d049';
 				// unpairMaskBlock.textContent = counter;
 				globalGameData.field.append(unpairMaskBlock);
-				keysUnpairArray.push(counter);
+				// keysUnpairArray.push(counter);
 			}
 		}
 	}
