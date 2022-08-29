@@ -2,7 +2,6 @@
 
 export class GlobalGameData {
 	WIDTH;
-	HEIGHT = this.WIDTH;
 
 	bombs = [23, 10, 56, 77, 3, 5, 37, 21, 54, 13, 17, 19, 87]; //! later
 	// flagsCounter = BOMBS_COUNT;
@@ -24,7 +23,6 @@ export class GlobalGameData {
 	arrayChildrenCellsPair = [];
 	arrayChildrenCellsUnpair = [];
 
-	testArray = []
 
 	getTargetIndex() {
 		if (this.cells.length !== 0) this.index = this.cells.indexOf(event.target);
@@ -61,11 +59,6 @@ export class GlobalGameData {
 		});
 	};
 
-	createTwoPairsArrayChildren() {
-		this.fieldCellsChildren.forEach(item => {
-			item.style.backgroundColor == 'rgb(169, 215, 81)' ? this.arrayChildrenCellsPair.push(item) :
-				this.arrayChildrenCellsUnpair.push(item);
-		});
-	};
+
 
 };

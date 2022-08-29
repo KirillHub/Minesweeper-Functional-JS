@@ -1,7 +1,7 @@
 "use strict";
 
 import { arrayGameModeStates } from "./gameModeStatesData.js";
-import { GlobalGameData } from "../GameGlobalData/GameGlobalData.js"
+import { GlobalGameData } from "../../GameGlobalData/GameGlobalData.js"
 
 export function activatorGameStatesMode(startGameActive) {
 	const globalGameData = new GlobalGameData();

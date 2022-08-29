@@ -1,10 +1,10 @@
 'use strict'
 
-import { GlobalGameData } from "../GameGlobalData/GameGlobalData.js";
+import { GlobalGameData } from "../../GameGlobalData/GameGlobalData.js";
 
-export function createBoard(WIDTH, HEIGHT, BOMBS_COUNT) {
+export function createBoard(WIDTH, HEIGHT) {
 	const globalGameData = new GlobalGameData();
-	console.log([WIDTH, HEIGHT, BOMBS_COUNT]);
+
 	// const keysPairArray = [];
 	// const keysUnpairArray = [];
 	let counter = -1;
