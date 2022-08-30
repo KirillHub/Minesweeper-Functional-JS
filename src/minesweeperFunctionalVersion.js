@@ -35,20 +35,27 @@ globalGameData.field.addEventListener('click', event => {
 	globalGameData.getNumberBoardRow();
 	globalGameData.getBombsCount();
 
-	// console.log(globalGameData.isFistClickImplement);
 	bombsFirstClickAnimationArray = bombsFirstClickAnimation(globalGameData.row,
 		globalGameData.column, globalGameData.WIDTH, globalGameData.BOMBS_COUNT,
 		globalGameData.arrayBombNeighboursOnFirstClick, globalGameData.cells);
 
+	if (!bombsFirstClickAnimationArray) {
+		bombsFirstClickAnimationArray = new Array();
+		globalGameData.cells.forEach((item, index) => {
+
+			if (item.classList.contains('bomb-cell')) {
+
+				bombsFirstClickAnimationArray.push(index);
+			}
+		});
+	};
+
 	openFieldCells(globalGameData.row, globalGameData.column, selector,
 		globalGameData.WIDTH, globalGameData.cells, bombsFirstClickAnimationArray);
-
 
 	isBomb(globalGameData.row, globalGameData.column, globalGameData.WIDTH, bombsFirstClickAnimationArray);
 	isValidForOpenCells(globalGameData.row, globalGameData.column, globalGameData.WIDTH, bombsFirstClickAnimationArray);
 	getCellsCount(globalGameData.row, globalGameData.column, globalGameData.WIDTH, bombsFirstClickAnimationArray);
 
 });
-
-
 

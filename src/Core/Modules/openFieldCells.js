@@ -2,11 +2,17 @@
 
 import hoverEffectClassListStyle from "../Modules/hoverEffectsStyle.js";
 
+
 function isBomb(row, column, WIDTH, bombsArray) {
 	if (!isValidForOpenCells(row, column, WIDTH, bombsArray)) return false;
 
 	const index = row * WIDTH + column;
-	return bombsArray.includes(index);
+
+	if (bombsArray.length !== 0) {
+		return bombsArray.includes(index);
+	} else {
+
+	}
 };
 
 function isValidForOpenCells(row, column, WIDTH, bombsArray) {

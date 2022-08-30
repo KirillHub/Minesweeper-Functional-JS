@@ -12,47 +12,47 @@ export function bombsFirstClickAnimation(row, column, WIDTH, BOMBS_COUNT, arrayB
 	let countFieldsChildrenBlocks = cells.length;
 	console.log(countFieldsChildrenBlocks);
 
+	if (arrayBombNeighboursOnFirstClick.length === 0) {
+		function pushNeighborFieldsIndex(row, column, WIDTH) {
+			if (!isValidForOpenCells(row, column, WIDTH)) return false;
 
-	function pushNeighborFieldsIndex(row, column, WIDTH) {
-		if (!isValidForOpenCells(row, column, WIDTH)) return false;
-
-		const index = row * WIDTH + column;
-		return arrayBombNeighboursOnFirstClick.push(index)
-	}
-	pushNeighborFieldsIndex(row, column, WIDTH);
-
-	function openNeighborsFields(row, column, WIDTH) {
-		for (let x = -1; x <= 1; x++) {
-			for (let y = -1; y <= 1; y++) {
-				(pushNeighborFieldsIndex(row + y, column + x, WIDTH))
-			}
+			const index = row * WIDTH + column;
+			return arrayBombNeighboursOnFirstClick.push(index)
 		}
-	};
-	openNeighborsFields(row, column, WIDTH);
+		pushNeighborFieldsIndex(row, column, WIDTH);
 
-	arrayBombNeighboursOnFirstClick.forEach(neighbors =>
-		setObjectOfRandomMines.add(neighbors));
+		function openNeighborsFields(row, column, WIDTH) {
+			for (let x = -1; x <= 1; x++) {
+				for (let y = -1; y <= 1; y++) {
+					(pushNeighborFieldsIndex(row + y, column + x, WIDTH))
+				}
+			}
+		};
+		openNeighborsFields(row, column, WIDTH);
 
-	do {
-		setObjectOfRandomMines.add(randomizerMinesIndex(0, countFieldsChildrenBlocks));
-	} while (setObjectOfRandomMines.size < (BOMBS_COUNT + arrayBombNeighboursOnFirstClick.length)
-		&& setObjectOfRandomMines.size <= countFieldsChildrenBlocks);
 
-	setObjectOfRandomMines.forEach(item => bombsRandomArrayGenerated.push(item));
+		// if (bombsRandomArrayGenerated.length !== 0 ) return //! убиваем функцию в этом месте
 
-	bombsRandomArrayGenerated = bombsRandomArrayGenerated
-		.slice(arrayBombNeighboursOnFirstClick.length, bombsRandomArrayGenerated.length);
+		arrayBombNeighboursOnFirstClick.forEach(neighbors =>
+			setObjectOfRandomMines.add(neighbors));
 
-	return bombsRandomArrayGenerated;
+		do {
+			setObjectOfRandomMines.add(randomizerMinesIndex(0, countFieldsChildrenBlocks));
+		} while (setObjectOfRandomMines.size < (BOMBS_COUNT + arrayBombNeighboursOnFirstClick.length)
+			&& setObjectOfRandomMines.size <= countFieldsChildrenBlocks);
 
-	//TODO: need to fix open field
-	// С каждым кликом происходит смена массива с бомбами
-	if (arrayBombNeighboursOnFirstClick.length === 0) { } else if (arrayBombNeighboursOnFirstClick.length !== 0) {
+		setObjectOfRandomMines.forEach(item => bombsRandomArrayGenerated.push(item));
 
-		// console.log(arrayBombNeighboursOnFirstClick);
-		// console.log(arrayBombNeighboursOnFirstClick);
-		return arrayBombNeighboursOnFirstClick = bombsRandomArrayGenerated;
+		bombsRandomArrayGenerated = bombsRandomArrayGenerated
+			.slice(arrayBombNeighboursOnFirstClick.length, bombsRandomArrayGenerated.length);
+
+		bombsRandomArrayGenerated.forEach(item => cells[item].classList.add('bomb-cell'));
+
+		return bombsRandomArrayGenerated;
+	} else {
+
 	}
+
 
 
 
