@@ -11,6 +11,7 @@ export class GlobalGameData {
 
 	field = document.querySelector('.field');
 	fieldCellsChildren = document.querySelectorAll('.fields__cell');
+	buttonsParentDiv = document.querySelector('.buttons-config');
 
 	cells = [];
 	index;
@@ -21,10 +22,10 @@ export class GlobalGameData {
 	arrayBombNeighboursOnFirstClick = new Array();
 	setObjectOfRandomMines = new Set();
 
-	isFistClickEmplement = false;
+	isFistClickImplement = false;
+	// isCreatedNewBoard = false;
 
 	arrayChildrenCells = [];
-
 
 
 	getTargetIndex() {

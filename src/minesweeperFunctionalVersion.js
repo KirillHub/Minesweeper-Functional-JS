@@ -17,9 +17,7 @@ activatorGameStatesMode(createBoard);
 
 /*============================================================================================================*/
 
-
-
-
+let bombsFirstClickAnimationArray = new Array();
 //? clicks animation
 //TODO: forget about any first click's implementation
 globalGameData.field.addEventListener('click', event => {
@@ -37,48 +35,20 @@ globalGameData.field.addEventListener('click', event => {
 	globalGameData.getNumberBoardRow();
 	globalGameData.getBombsCount();
 
-
-	// bombsAnimation(); //! later
+	// console.log(globalGameData.isFistClickImplement);
+	bombsFirstClickAnimationArray = bombsFirstClickAnimation(globalGameData.row,
+		globalGameData.column, globalGameData.WIDTH, globalGameData.BOMBS_COUNT,
+		globalGameData.arrayBombNeighboursOnFirstClick, globalGameData.cells);
 
 	openFieldCells(globalGameData.row, globalGameData.column, selector,
-		globalGameData.WIDTH, globalGameData.cells);
-		bombsFirstClickAnimation(globalGameData.row, globalGameData.column, globalGameData.WIDTH, globalGameData.BOMBS_COUNT,
-			globalGameData.arrayBombNeighboursOnFirstClick, globalGameData.cells);
-	isBomb(globalGameData.row, globalGameData.column, globalGameData.WIDTH);
-	isValidForOpenCells(globalGameData.row, globalGameData.column, globalGameData.WIDTH);
-	getCellsCount(globalGameData.row, globalGameData.column, globalGameData.WIDTH);
+		globalGameData.WIDTH, globalGameData.cells, bombsFirstClickAnimationArray);
 
 
+	isBomb(globalGameData.row, globalGameData.column, globalGameData.WIDTH, bombsFirstClickAnimationArray);
+	isValidForOpenCells(globalGameData.row, globalGameData.column, globalGameData.WIDTH, bombsFirstClickAnimationArray);
+	getCellsCount(globalGameData.row, globalGameData.column, globalGameData.WIDTH, bombsFirstClickAnimationArray);
 
-	// console.log(globalGameData.bombs);
 });
-
-
-
-//?  first click !Временно!
-// globalGameData.field.addEventListener('click', (event) => {
-// 	if (event.target.tagName !== 'DIV') return;
-
-// 	console.log('here');
-
-// 	// MusicComponents.musicSounds('../music/first-click.wav');
-// }, { once: true });
-
-
-
-/*============================================================================================================*/
-//! later 
-
-
-
-/*
-function randomizerMinesIndex(minArrayIndex, maxArrayIndex) {
-	minArrayIndex = Math.ceil(minArrayIndex);
-	maxArrayIndex = Math.floor(maxArrayIndex);
-	return Math.floor(Math.random() * (maxArrayIndex - minArrayIndex + 1) + minArrayIndex);
-};
-*/
-/*============================================================================================================*/
 
 
 

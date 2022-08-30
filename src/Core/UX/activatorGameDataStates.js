@@ -5,10 +5,9 @@ import { GlobalGameData } from "../../GameGlobalData/GameGlobalData.js"
 
 export function activatorGameStatesMode(startGameActive) {
 	const globalGameData = new GlobalGameData();
-	const buttonsParentDiv = document.querySelector('.buttons-config');
 	const fieldStyle = globalGameData.field.style;
 
-	buttonsParentDiv.addEventListener('click', event => {
+	globalGameData.buttonsParentDiv.addEventListener('click', event => {
 		let indexArrayGameModeStates;
 		if (event.target.tagName !== "BUTTON") return;
 
@@ -37,8 +36,6 @@ export function activatorGameStatesMode(startGameActive) {
 				item.style.fontSize = "30px";
 				item.style.height = "40px";
 			});
-
-			// globalGameData.isFistClickEmplement = true;
 
 		} else if (event.target.textContent === 'Normal') {
 			indexArrayGameModeStates = 1;
