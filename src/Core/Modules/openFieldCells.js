@@ -6,7 +6,6 @@ function isBomb(row, column, WIDTH, bombsArray) {
 	if (!isValidForOpenCells(row, column, WIDTH, bombsArray)) return false;
 
 	const index = row * WIDTH + column;
-	console.log(bombsArray);
 	return bombsArray.includes(index);
 };
 
