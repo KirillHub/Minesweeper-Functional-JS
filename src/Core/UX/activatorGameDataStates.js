@@ -16,6 +16,14 @@ export function activatorGameStatesMode(startGameActive) {
 			globalGameData.field.removeChild(globalGameData.field.firstChild)
 		};
 
+		/*
+		! запасной вариант как ребутить страничку
+		const resultQuestion = confirm("Вы желаете начать новую игру?");
+		if (resultQuestion) {
+			return window.location.reload()
+		}
+		*/
+
 		if (event.target.textContent === 'Easy') {
 			indexArrayGameModeStates = 0;
 

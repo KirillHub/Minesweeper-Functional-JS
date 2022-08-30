@@ -3,7 +3,7 @@
 export class GlobalGameData {
 	WIDTH;
 
-	bombs = [23, 10, 56, 77, 3, 5, 37, 21, 54, 13, 17, 19, 87]; //! later
+	bombs = []; 
 	// flagsCounter = BOMBS_COUNT;
 	// flag.innerText = flagsCounter; //? cringe?
 	flagsLocationCoords = new Set();
@@ -15,13 +15,15 @@ export class GlobalGameData {
 	index;
 	column;
 	row;
+
 	bombsRandomArrayGenerated = new Array();
 	arrayBombNeighboursOnFirstClick = new Array();
 	setObjectOfRandomMines = new Set();
+
 	isFistClickEmplement = false;
+
 	arrayChildrenCells = [];
-	arrayChildrenCellsPair = [];
-	arrayChildrenCellsUnpair = [];
+
 
 
 	getTargetIndex() {
@@ -58,7 +60,5 @@ export class GlobalGameData {
 			this.arrayChildrenCells.push(item)
 		});
 	};
-
-
 
 };
