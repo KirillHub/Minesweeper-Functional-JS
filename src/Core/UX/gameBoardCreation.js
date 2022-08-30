@@ -2,8 +2,9 @@
 
 import { GlobalGameData } from "../../GameGlobalData/GameGlobalData.js";
 
-export function createBoard(WIDTH, HEIGHT) {
+export function createBoard(WIDTH, HEIGHT, BOMBS_COUNT) {
 	const globalGameData = new GlobalGameData();
+	// console.log(BOMBS_COUNT);
 
 	// const keysPairArray = [];
 	// const keysUnpairArray = [];
@@ -34,5 +35,5 @@ export function createBoard(WIDTH, HEIGHT) {
 				// keysUnpairArray.push(counter);
 			}
 		}
-	}
+	};
 }

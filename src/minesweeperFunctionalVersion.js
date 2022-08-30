@@ -3,7 +3,6 @@
 import { GlobalGameData } from "../src/GameGlobalData/GameGlobalData.js";
 import { activatorGameStatesMode } from "../src/Core/UX/activatorGameDataStates.js";
 import { createBoard } from "../src/Core/UX/gameBoardCreation.js";
-import { randomizerMinesIndex } from "../src/Core/Util/util.js";
 import { openFieldCells, isValidForOpenCells, isBomb, getCellsCount } from "../src/Core/Modules/openFieldCells.js";
 import { bombsFirstClickAnimation } from "../src/Core/Modules/bombsFirstClickAnimation.js";
 
@@ -17,8 +16,7 @@ const globalGameData = new GlobalGameData();
 activatorGameStatesMode(createBoard);
 
 /*============================================================================================================*/
-const bombs = [...Array(100).keys()].sort(() => Math.random() - 0.5)
-	.slice(0, 5);
+
 
 
 
@@ -37,31 +35,34 @@ globalGameData.field.addEventListener('click', event => {
 	globalGameData.getBoardWidth();
 	globalGameData.getNumberBoardColumn();
 	globalGameData.getNumberBoardRow();
-
+	globalGameData.getBombsCount();
 
 
 	// bombsAnimation(); //! later
 
 	openFieldCells(globalGameData.row, globalGameData.column, selector,
 		globalGameData.WIDTH, globalGameData.cells);
+		bombsFirstClickAnimation(globalGameData.row, globalGameData.column, globalGameData.WIDTH, globalGameData.BOMBS_COUNT,
+			globalGameData.arrayBombNeighboursOnFirstClick, globalGameData.cells);
 	isBomb(globalGameData.row, globalGameData.column, globalGameData.WIDTH);
 	isValidForOpenCells(globalGameData.row, globalGameData.column, globalGameData.WIDTH);
 	getCellsCount(globalGameData.row, globalGameData.column, globalGameData.WIDTH);
 
-	bombsFirstClickAnimation(globalGameData.row, globalGameData.column, globalGameData.WIDTH,
-		globalGameData.arrayBombNeighboursOnFirstClick);
+
+
+	// console.log(globalGameData.bombs);
 });
 
 
 
 //?  first click !Временно!
-globalGameData.field.addEventListener('click', (event) => {
-	if (event.target.tagName !== 'DIV') return;
+// globalGameData.field.addEventListener('click', (event) => {
+// 	if (event.target.tagName !== 'DIV') return;
 
-	console.log('here');
+// 	console.log('here');
 
-	// MusicComponents.musicSounds('../music/first-click.wav');
-}, { once: true });
+// 	// MusicComponents.musicSounds('../music/first-click.wav');
+// }, { once: true });
 
 
 

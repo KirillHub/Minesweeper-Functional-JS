@@ -2,8 +2,9 @@
 
 export class GlobalGameData {
 	WIDTH;
+	BOMBS_COUNT;
 
-	bombs = []; 
+	bombs = [];
 	// flagsCounter = BOMBS_COUNT;
 	// flag.innerText = flagsCounter; //? cringe?
 	flagsLocationCoords = new Set();
@@ -59,6 +60,12 @@ export class GlobalGameData {
 		this.fieldCellsChildren.forEach(item => {
 			this.arrayChildrenCells.push(item)
 		});
+	};
+
+	getBombsCount() {
+		if (this.cells.length === 100) this.BOMBS_COUNT = 12;
+		if (this.cells.length === 225) this.BOMBS_COUNT = 35;
+		if (this.cells.length === 400) this.BOMBS_COUNT = 80;
 	};
 
 };

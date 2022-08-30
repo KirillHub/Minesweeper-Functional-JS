@@ -1,6 +1,7 @@
 'use strict'
 
 import hoverEffectClassListStyle from "../Modules/hoverEffectsStyle.js";
+import { bombsFirstClickAnimation } from "./bombsFirstClickAnimation.js";
 
 
 const bombs = [...Array(100).keys()].sort(() => Math.random() - 0.5)

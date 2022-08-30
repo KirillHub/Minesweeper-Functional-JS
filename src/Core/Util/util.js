@@ -1,7 +1,5 @@
 'use strict'
 
-
-
 function randomizerMinesIndex(minArrayIndex, maxArrayIndex) {
 	minArrayIndex = Math.ceil(minArrayIndex);
 	maxArrayIndex = Math.floor(maxArrayIndex);

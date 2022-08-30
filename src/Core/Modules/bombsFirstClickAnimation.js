@@ -1,9 +1,12 @@
 'use strict'
 
-import { isValidForOpenCells } from "../Modules/openFieldCells.js"
+import { isValidForOpenCells } from "../Modules/openFieldCells.js";
+import { GlobalGameData } from "../../GameGlobalData/GameGlobalData.js";
+import { randomizerMinesIndex } from "../Util/util.js"
 
-export function bombsFirstClickAnimation(row, column, WIDTH, arrayBombNeighboursOnFirstClick) {
+export function bombsFirstClickAnimation(row, column, WIDTH, BOMBS_COUNT, arrayBombNeighboursOnFirstClick, cells) {
 
+	const globalGameData = new GlobalGameData();
 	if (arrayBombNeighboursOnFirstClick.length !== 0) return
 
 	function pushNeighborFieldsIndex(row, column, WIDTH) {
@@ -24,6 +27,26 @@ export function bombsFirstClickAnimation(row, column, WIDTH, arrayBombNeighbours
 	};
 	openNeighborsFields(row, column, WIDTH);
 
-	console.log(arrayBombNeighboursOnFirstClick);
+	//?
+	let setObjectOfRandomMines = globalGameData.setObjectOfRandomMines;
+	let bombsRandomArrayGenerated = globalGameData.bombsRandomArrayGenerated;
+
+	arrayBombNeighboursOnFirstClick.forEach(neighbors =>
+		setObjectOfRandomMines.add(neighbors));
+
+	let countFieldsChildrenBlocks = cells.length;
+	console.log(countFieldsChildrenBlocks); //!  количество ячеек от смены режима не изменится
+
+	do {
+		setObjectOfRandomMines.add(randomizerMinesIndex(0, countFieldsChildrenBlocks));
+	} while (setObjectOfRandomMines.size < (BOMBS_COUNT + arrayBombNeighboursOnFirstClick.length)
+		&& setObjectOfRandomMines.size <= countFieldsChildrenBlocks);
+
+	setObjectOfRandomMines.forEach(item => bombsRandomArrayGenerated.push(item));
+
+	bombsRandomArrayGenerated = bombsRandomArrayGenerated
+		.slice(arrayBombNeighboursOnFirstClick.length, bombsRandomArrayGenerated.length);
+	console.log(bombsRandomArrayGenerated);
+	return globalGameData.bombs = bombsRandomArrayGenerated;
 };
 
