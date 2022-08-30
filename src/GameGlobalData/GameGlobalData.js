@@ -1,32 +1,31 @@
 'use strict'
 
 export class GlobalGameData {
-	WIDTH;
-	BOMBS_COUNT;
 
-	bombs = [];
-	// flagsCounter = BOMBS_COUNT;
-	// flag.innerText = flagsCounter; //? cringe?
-	flagsLocationCoords = new Set();
+	constructor() {
+		this.WIDTH;
+		this.BOMBS_COUNT;
 
-	field = document.querySelector('.field');
-	fieldCellsChildren = document.querySelectorAll('.fields__cell');
-	buttonsParentDiv = document.querySelector('.buttons-config');
+		// flagsCounter = BOMBS_COUNT;
+		// flag.innerText = flagsCounter; //? cringe?
+		this.flagsLocationCoords = new Set();
 
-	cells = [];
-	index;
-	column;
-	row;
+		this.field = document.querySelector('.field');
+		this.fieldCellsChildren = document.querySelectorAll('.fields__cell');
+		this.buttonsParentDiv = document.querySelector('.buttons-config');
 
-	bombsRandomArrayGenerated = new Array();
-	arrayBombNeighboursOnFirstClick = new Array();
-	setObjectOfRandomMines = new Set();
+		this.cells = [];
+		this.index;
+		this.column;
+		this.row;
 
-	isFistClickImplement = false;
-	// isCreatedNewBoard = false;
+		this.bombsRandomArrayGenerated = new Array();
+		this.arrayBombNeighboursOnFirstClick = new Array();
+		this.setObjectOfRandomMines = new Set();
 
-	arrayChildrenCells = [];
-
+		this.isFistClickImplement = false;
+		this.arrayChildrenCells = [];
+	};
 
 	getTargetIndex() {
 		if (this.cells.length !== 0) this.index = this.cells.indexOf(event.target);
@@ -70,3 +69,6 @@ export class GlobalGameData {
 	};
 
 };
+
+
+

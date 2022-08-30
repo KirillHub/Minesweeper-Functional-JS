@@ -35,11 +35,12 @@ globalGameData.field.addEventListener('click', event => {
 	globalGameData.getNumberBoardRow();
 	globalGameData.getBombsCount();
 
-	bombsFirstClickAnimationArray = bombsFirstClickAnimation(globalGameData.row,
+	let bombsFirstClickAnimationArray = bombsFirstClickAnimation(globalGameData.row,
 		globalGameData.column, globalGameData.WIDTH, globalGameData.BOMBS_COUNT,
 		globalGameData.arrayBombNeighboursOnFirstClick, globalGameData.cells);
 
-	if (!bombsFirstClickAnimationArray) {
+
+	if (!bombsFirstClickAnimationArray || typeof bombsFirstClickAnimationArray === "undefined") {
 		bombsFirstClickAnimationArray = new Array();
 		globalGameData.cells.forEach((item, index) => {
 
@@ -50,12 +51,16 @@ globalGameData.field.addEventListener('click', event => {
 		});
 	};
 
+
 	openFieldCells(globalGameData.row, globalGameData.column, selector,
 		globalGameData.WIDTH, globalGameData.cells, bombsFirstClickAnimationArray);
 
-	isBomb(globalGameData.row, globalGameData.column, globalGameData.WIDTH, bombsFirstClickAnimationArray);
-	isValidForOpenCells(globalGameData.row, globalGameData.column, globalGameData.WIDTH, bombsFirstClickAnimationArray);
-	getCellsCount(globalGameData.row, globalGameData.column, globalGameData.WIDTH, bombsFirstClickAnimationArray);
+	isBomb(globalGameData.row, globalGameData.column, globalGameData.WIDTH,
+		bombsFirstClickAnimationArray);
+	isValidForOpenCells(globalGameData.row, globalGameData.column, globalGameData.WIDTH,
+		bombsFirstClickAnimationArray);
+	getCellsCount(globalGameData.row, globalGameData.column, globalGameData.WIDTH,
+		bombsFirstClickAnimationArray);
 
 });
 

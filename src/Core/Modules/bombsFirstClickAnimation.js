@@ -4,7 +4,8 @@ import { isValidForOpenCells } from "../Modules/openFieldCells.js";
 import { GlobalGameData } from "../../GameGlobalData/GameGlobalData.js";
 import { randomizerMinesIndex } from "../Util/util.js"
 
-export function bombsFirstClickAnimation(row, column, WIDTH, BOMBS_COUNT, arrayBombNeighboursOnFirstClick, cells) {
+export function bombsFirstClickAnimation(row, column, WIDTH, BOMBS_COUNT,
+	arrayBombNeighboursOnFirstClick, cells) {
 
 	const globalGameData = new GlobalGameData();
 	let setObjectOfRandomMines = globalGameData.setObjectOfRandomMines;
@@ -30,7 +31,6 @@ export function bombsFirstClickAnimation(row, column, WIDTH, BOMBS_COUNT, arrayB
 		};
 		openNeighborsFields(row, column, WIDTH);
 
-
 		// if (bombsRandomArrayGenerated.length !== 0 ) return //! убиваем функцию в этом месте
 
 		arrayBombNeighboursOnFirstClick.forEach(neighbors =>
@@ -49,12 +49,6 @@ export function bombsFirstClickAnimation(row, column, WIDTH, BOMBS_COUNT, arrayB
 		bombsRandomArrayGenerated.forEach(item => cells[item].classList.add('bomb-cell'));
 
 		return bombsRandomArrayGenerated;
-	} else {
-
 	}
-
-
-
-
 };
 
