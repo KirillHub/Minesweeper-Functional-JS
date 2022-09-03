@@ -17,7 +17,7 @@ activatorGameStatesMode(createBoard);
 
 /*============================================================================================================*/
 
-let bombsFirstClickAnimationArray = new Array();
+
 //? clicks animation
 //TODO: forget about any first click's implementation
 globalGameData.field.addEventListener('click', event => {
@@ -35,12 +35,14 @@ globalGameData.field.addEventListener('click', event => {
 	globalGameData.getNumberBoardRow();
 	globalGameData.getBombsCount();
 
-	let bombsFirstClickAnimationArray = bombsFirstClickAnimation(globalGameData.row,
+	let bombsFirstClickAnimationArray = new Array();
+
+	bombsFirstClickAnimationArray = bombsFirstClickAnimation(globalGameData.row,
 		globalGameData.column, globalGameData.WIDTH, globalGameData.BOMBS_COUNT,
 		globalGameData.arrayBombNeighboursOnFirstClick, globalGameData.cells);
 
-
-	if (!bombsFirstClickAnimationArray || typeof bombsFirstClickAnimationArray === "undefined") {
+	if (!bombsFirstClickAnimationArray || typeof bombsFirstClickAnimationArray === "undefined" ||
+		bombsFirstClickAnimationArray.length === 0) {
 		bombsFirstClickAnimationArray = new Array();
 		globalGameData.cells.forEach((item, index) => {
 
@@ -50,7 +52,6 @@ globalGameData.field.addEventListener('click', event => {
 			}
 		});
 	};
-
 
 	openFieldCells(globalGameData.row, globalGameData.column, selector,
 		globalGameData.WIDTH, globalGameData.cells, bombsFirstClickAnimationArray);
