@@ -17,7 +17,7 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	let bombs;
 	let flagsCounter = BOMBS_COUNT;
 	flag.innerText = flagsCounter;
-	let flagsLocationCoords = new Set();
+	c
 	let hoverClassEffectsArray = new Set();
 
 	function board() {
@@ -152,7 +152,7 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	});
 
 
-	// right click animation
+	//! right click animation
 	field.addEventListener('contextmenu', (event) => {
 		event.preventDefault();
 		flagCounter();

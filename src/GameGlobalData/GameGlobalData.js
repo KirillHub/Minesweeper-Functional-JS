@@ -6,8 +6,8 @@ export class GlobalGameData {
 		this.WIDTH;
 		this.BOMBS_COUNT;
 
-		// flagsCounter = BOMBS_COUNT;
-		// flag.innerText = flagsCounter; //? cringe?
+		this.flagsCounter;
+		this.flagsCounterBlock = document.querySelector(".main-title__flags-counter");
 		this.flagsLocationCoords = new Set();
 
 		this.field = document.querySelector('.field');
@@ -19,6 +19,7 @@ export class GlobalGameData {
 		this.column;
 		this.row;
 
+		this.bombsFirstClickAnimationArray = [];
 		this.bombsRandomArrayGenerated = new Array();
 		this.arrayBombNeighboursOnFirstClick = new Array();
 		this.setObjectOfRandomMines = new Set();
@@ -26,6 +27,10 @@ export class GlobalGameData {
 		this.isFistClickImplement = false;
 		this.arrayChildrenCells = [];
 	};
+
+	getCringe() {
+		if (this.bombsFirstClickAnimationArray.length !== 0) return this.bombsFirstClickAnimationArray;
+	}
 
 	getTargetIndex() {
 		if (this.cells.length !== 0) this.index = this.cells.indexOf(event.target);

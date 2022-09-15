@@ -5,6 +5,8 @@ import { activatorGameStatesMode } from "../src/Core/UI/activatorGameDataStates.
 import { createBoard } from "../src/Core/UI/gameBoardCreation.js";
 import { openFieldCells, isValidForOpenCells, isBomb, getCellsCount } from "../src/Core/Modules/openFieldCells.js";
 import { bombsFirstClickAnimation } from "../src/Core/Modules/bombsFirstClickAnimation.js";
+import { rebootGameWindow } from "./Core/Util/util.js";
+import { flagCounter } from "./Core/UI/flagsAnimation.js";
 
 /*============================================================================================================*/
 //! globals variables
@@ -24,13 +26,7 @@ globalGameData.field.addEventListener('click', event => {
 	const selector = event.target;
 	if (selector.tagName !== 'DIV') return;
 
-	globalGameData.buttonsParentDiv.addEventListener('click', event => {
-		if (event) {
-			if (event.target.classList.contains('start-game')) {
-				window.location.reload()
-			} else return window.location.reload()
-		}
-	})
+	globalGameData.buttonsParentDiv.addEventListener('click', e => rebootGameWindow(e));
 
 	//create array with cells
 	globalGameData.getArrayChildrenCells();
@@ -65,5 +61,15 @@ globalGameData.field.addEventListener('click', event => {
 		bombsFirstClickAnimationArray);
 	getCellsCount(globalGameData.row, globalGameData.column, globalGameData.WIDTH,
 		bombsFirstClickAnimationArray);
+
+	return globalGameData.bombsFirstClickAnimationArray = bombsFirstClickAnimationArray;
+});
+
+
+// right click animation (arrayDOMElementsBoardCell)
+globalGameData.field.addEventListener('contextmenu', (event) => {
+	// if (globalGameData.flagsCounterBlock.textContent === '') return;
+	event.preventDefault();
+	flagCounter(event);
 });
 

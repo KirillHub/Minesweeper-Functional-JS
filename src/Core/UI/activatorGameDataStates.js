@@ -6,6 +6,7 @@ import { GlobalGameData } from "../../GameGlobalData/GameGlobalData.js"
 export function activatorGameStatesMode(startGameActive) {
 	const globalGameData = new GlobalGameData();
 	const fieldStyle = globalGameData.field.style;
+	const flagCounter = document.querySelector('.main-title__flags-counter');
 
 	globalGameData.buttonsParentDiv.addEventListener('click', event => {
 		let indexArrayGameModeStates;
@@ -23,6 +24,8 @@ export function activatorGameStatesMode(startGameActive) {
 				arrayGameModeStates[indexArrayGameModeStates].BOMBS_COUNT);
 
 			fieldStyle.setProperty('grid-template-columns', `repeat(10, 40px)`);
+
+
 
 			globalGameData.field.childNodes.forEach(item => {
 				item.style.fontSize = "30px";
@@ -52,6 +55,8 @@ export function activatorGameStatesMode(startGameActive) {
 				item.style.height = "23px";
 			});
 		};
+		flagCounter.textContent = arrayGameModeStates[indexArrayGameModeStates].BOMBS_COUNT;
+
 		return startGameActive
 	});
 };
