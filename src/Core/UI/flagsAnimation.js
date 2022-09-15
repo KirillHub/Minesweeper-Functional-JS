@@ -4,6 +4,8 @@ import MusicComponents from "../Modules/MusicComponents.js";
 
 const globalGameData = new GlobalGameData();
 let flagsLocationCoords = new Set();
+let _flagCounter = +globalGameData.flagsCounterBlock.textContent;
+console.log(_flagCounter);
 
 export const flagCounter = (event) => {
 
@@ -13,6 +15,7 @@ export const flagCounter = (event) => {
 	const index = globalGameData.index;
 	const selector = event.target;
 	const flagsCounter = globalGameData.flagsCounterBlock;
+
 
 	if (flagsCounter.textContent > 0
 		&& selector.style.backgroundColor !== 'rgb(228, 194, 159)'

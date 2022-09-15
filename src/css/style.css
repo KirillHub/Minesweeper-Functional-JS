@@ -31,7 +31,8 @@ aside {
 
 html,
 body {
-  background: #fafafa;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  background-color: rgba(99, 202, 79, 0.233);
   color: #252B42;
   font-style: normal;
   font-weight: 500;
@@ -93,7 +94,6 @@ h6 {
 
 /*--------------------*/
 body {
-  background-color: rgba(99, 202, 79, 0.233);
   color: black;
   -moz-user-select: -moz-none;
   -o-user-select: none;
@@ -110,7 +110,7 @@ body {
 
 /*============================================================================================================*/
 .main-block__title {
-  margin: 0 0 45px 0;
+  margin: 0 0 30px 0;
   text-align: center;
   font-weight: 600;
   padding-top: 20px;
@@ -119,16 +119,16 @@ body {
 
 .main-title {
   display: flex;
+  width: 600px;
   font-size: 34px;
   justify-content: center;
-  margin: 0 0 45px 0;
+  align-items: center;
+  margin: 0 0 40px 240px;
 }
-
 .main-title__flag-block {
   display: flex;
   margin-right: 40px;
 }
-
 .main-title__timer-block {
   display: flex;
 }
@@ -141,7 +141,7 @@ body {
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(15, 27px);
-  outline: 10px solid rgba(126, 54, 54, 0.678);
+  outline: 15px solid rgba(126, 54, 54, 0.678);
   -moz-user-select: -moz-none;
   -o-user-select: none;
   -webkit-user-select: none;
@@ -162,7 +162,6 @@ body {
   -webkit-user-select: none;
   -ms-user-select: none;
       user-select: none;
-  /* pointer-events: none; */
 }
 
 .field .fields__hover-class:hover {
@@ -180,12 +179,23 @@ body {
 /*============================================================================================================*/
 /* buttons config*/
 .main-title__buttons {
-  margin-left: -100px;
-  padding-right: 70px;
+  padding-right: 15px;
 }
 
 .buttons-config button {
-  padding: 10px;
+  padding: 10px 17px;
   font-size: 20px;
   font-weight: 600;
+  border-radius: 20%;
+  background-color: rgba(99, 202, 79, 0.363);
+}
+.buttons-config button:hover {
+  transform: scale(120%);
+  text-decoration: underline;
+  background-color: rgba(221, 22, 22, 0.76);
+}
+
+button {
+  display: inline-block;
+  margin-right: 10px;
 }
