@@ -45,8 +45,6 @@ export function bombsFirstClickAnimation(row, column, WIDTH, BOMBS_COUNT,
 
 		bombsRandomArrayGenerated.forEach(item => cells[item].classList.add('bomb-cell'));
 
-		console.log(bombsRandomArrayGenerated);
-
 		return bombsRandomArrayGenerated;
 	}
 };
