@@ -5,13 +5,11 @@ import { GlobalGameData } from "../../GameGlobalData/GameGlobalData.js";
 export function createBoard(WIDTH, HEIGHT) {
 	const globalGameData = new GlobalGameData();
 
-	// console.log(BOMBS_COUNT);
-
 	// const keysPairArray = [];
 	// const keysUnpairArray = [];
 	let counter = -1;
 
-	if (counter !== -1) counter = -1;  //? предосторожность (потом убрать)
+	if (counter !== -1) counter = -1; 
 
 	for (let i = 0; i < WIDTH; i++) {
 		for (let j = 0; j < HEIGHT; j++) {

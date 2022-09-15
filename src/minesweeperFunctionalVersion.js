@@ -8,13 +8,14 @@ import { bombsFirstClickAnimation } from "../src/Core/Modules/bombsFirstClickAni
 
 
 /*============================================================================================================*/
-
 //! globals variables
 const globalGameData = new GlobalGameData();
 
+// create visual board for user
+// createBoard(15, 15, 35);
+
 //! start game
 activatorGameStatesMode(createBoard);
-
 /*============================================================================================================*/
 
 
@@ -47,7 +48,6 @@ globalGameData.field.addEventListener('click', event => {
 		globalGameData.cells.forEach((item, index) => {
 
 			if (item.classList.contains('bomb-cell')) {
-
 				bombsFirstClickAnimationArray.push(index);
 			}
 		});

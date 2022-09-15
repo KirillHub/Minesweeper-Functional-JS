@@ -11,7 +11,6 @@ export function bombsFirstClickAnimation(row, column, WIDTH, BOMBS_COUNT,
 	let setObjectOfRandomMines = globalGameData.setObjectOfRandomMines;
 	let bombsRandomArrayGenerated = globalGameData.bombsRandomArrayGenerated;
 	let countFieldsChildrenBlocks = cells.length;
-	console.log(countFieldsChildrenBlocks);
 
 	if (arrayBombNeighboursOnFirstClick.length === 0) {
 		function pushNeighborFieldsIndex(row, column, WIDTH) {
