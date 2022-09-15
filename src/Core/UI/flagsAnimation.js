@@ -1,5 +1,6 @@
 'use strict'
 import { GlobalGameData } from "../../GameGlobalData/GameGlobalData.js";
+import MusicComponents from "../Modules/MusicComponents.js";
 
 const globalGameData = new GlobalGameData();
 let flagsLocationCoords = new Set();
@@ -40,31 +41,28 @@ export const flagCounter = (event) => {
 		selector.innerHTML = '';
 	};
 
-	console.log(flagsLocationCoords);
-
-
-
-}
-
+	checkingFlagsSet();
+};
 
 function checkingFlagsSet() {
 	const pullFlagsCoord = new Array();
+	let bombsLenghtArray = new Array();
 
-	globalGameData.fieldCellsChildren.forEach(item => {
-		console.log();
-		if (item.classList.contains('bomb-cell')) { }
+	globalGameData.fieldCellsChildren.forEach((bombsLocation, bombsLocationIndex) => {
+		if (bombsLocation.classList.contains('bomb-cell')) {
+			bombsLenghtArray.push(bombsLocationIndex);
+		}
 	});
 
-	bombs.forEach(bombsLocation => {
+	bombsLenghtArray.forEach(bombsLocation => {
 		flagsLocationCoords.forEach(flagsCord => {
 			if (bombsLocation === flagsCord) pullFlagsCoord.push(flagsCord);
-			if (pullFlagsCoord.length === bombs.length) {
-				endGameText.innerText = 'YOU WIN !';
+			if (pullFlagsCoord.length === bombsLenghtArray.length) {
+				globalGameData.endGameText.innerHTML = "YOU WIN !";
 				MusicComponents.musicSounds('../music/win.mp3');
 				setTimeout(() => { window.location.reload() }, 2000);
 			}
-		});
+		})
 	});
-}
-checkingFlagsSet();
 
+}

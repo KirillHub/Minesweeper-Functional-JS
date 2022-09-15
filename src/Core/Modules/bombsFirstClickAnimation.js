@@ -30,8 +30,6 @@ export function bombsFirstClickAnimation(row, column, WIDTH, BOMBS_COUNT,
 		};
 		openNeighborsFields(row, column, WIDTH);
 
-		// if (bombsRandomArrayGenerated.length !== 0 ) return //! убиваем функцию в этом месте
-
 		arrayBombNeighboursOnFirstClick.forEach(neighbors =>
 			setObjectOfRandomMines.add(neighbors));
 

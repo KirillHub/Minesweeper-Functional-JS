@@ -13,6 +13,7 @@ export class GlobalGameData {
 		this.field = document.querySelector('.field');
 		this.fieldCellsChildren = document.querySelectorAll('.fields__cell');
 		this.buttonsParentDiv = document.querySelector('.buttons-config');
+		this.endGameText = document.querySelector('.end-game');
 
 		this.cells = [];
 		this.index;

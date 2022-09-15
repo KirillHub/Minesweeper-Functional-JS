@@ -1,0 +1,191 @@
+@charset "UTF-8";
+/*Обнуление*/
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+:focus,
+:active {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+  display: block;
+}
+
+html,
+body {
+  background: #fafafa;
+  color: #252B42;
+  font-style: normal;
+  font-weight: 500;
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+  line-height: 1;
+  font-size: 14px;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+input,
+button,
+textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/*--------------------*/
+body {
+  background-color: rgba(99, 202, 79, 0.233);
+  color: black;
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+      user-select: none;
+}
+
+.wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 0 0 15px;
+}
+
+/*============================================================================================================*/
+.main-block__title {
+  margin: 0 0 45px 0;
+  text-align: center;
+  font-weight: 600;
+  padding-top: 20px;
+  font-size: 45px;
+}
+
+.main-title {
+  display: flex;
+  font-size: 34px;
+  justify-content: center;
+  margin: 0 0 45px 0;
+}
+
+.main-title__flag-block {
+  display: flex;
+  margin-right: 40px;
+}
+
+.main-title__timer-block {
+  display: flex;
+}
+
+.main-field {
+  display: flex;
+}
+
+.field {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(15, 27px);
+  outline: 10px solid rgba(126, 54, 54, 0.678);
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+      user-select: none;
+}
+
+.fields__cell {
+  cursor: pointer;
+  font-weight: 800;
+  height: 27px;
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+      user-select: none;
+  /* pointer-events: none; */
+}
+
+.field .fields__hover-class:hover {
+  opacity: 0.5;
+}
+
+.end-game {
+  text-align: center;
+  font-size: 72;
+  font-weight: 600;
+  color: red;
+  margin: -255px 0 0 0;
+}
+
+/*============================================================================================================*/
+/* buttons config*/
+.main-title__buttons {
+  margin-left: -100px;
+  padding-right: 70px;
+}
+
+.buttons-config button {
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}

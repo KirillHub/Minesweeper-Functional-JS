@@ -7,6 +7,8 @@ import { openFieldCells, isValidForOpenCells, isBomb, getCellsCount } from "../s
 import { bombsFirstClickAnimation } from "../src/Core/Modules/bombsFirstClickAnimation.js";
 import { rebootGameWindow } from "./Core/Util/util.js";
 import { flagCounter } from "./Core/UI/flagsAnimation.js";
+import MusicComponents from "./Core/Modules/MusicComponents.js";
+import endGame from "./Core/Modules/endGame.js";
 
 /*============================================================================================================*/
 //! globals variables
@@ -24,7 +26,10 @@ activatorGameStatesMode(createBoard);
 globalGameData.field.addEventListener('click', event => {
 	event.preventDefault();
 	const selector = event.target;
+	MusicComponents.musicSounds('../music/clicks.wav');
 	if (selector.tagName !== 'DIV') return;
+
+	endGame(selector);
 
 	globalGameData.buttonsParentDiv.addEventListener('click', e => rebootGameWindow(e));
 
@@ -66,9 +71,8 @@ globalGameData.field.addEventListener('click', event => {
 });
 
 
-// right click animation (arrayDOMElementsBoardCell)
+// right click animation 
 globalGameData.field.addEventListener('contextmenu', (event) => {
-	// if (globalGameData.flagsCounterBlock.textContent === '') return;
 	event.preventDefault();
 	flagCounter(event);
 });

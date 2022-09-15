@@ -1,99 +1,7 @@
 @charset "UTF-8";
-/*Обнуление*/
-* {
-  padding: 0;
-  margin: 0;
-  border: 0;
-}
 
-*,
-*:before,
-*:after {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-:focus,
-:active {
-  outline: none;
-}
-
-a:focus,
-a:active {
-  outline: none;
-}
-
-nav,
-footer,
-header,
-aside {
-  display: block;
-}
-
-html,
-body {
-  background: #fafafa;
-  color: #252B42;
-  font-style: normal;
-  font-weight: 500;
-  height: 100%;
-  width: 100%;
-  font-size: 100%;
-  line-height: 1;
-  font-size: 14px;
-  -ms-text-size-adjust: 100%;
-  -moz-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-}
-
-input,
-button,
-textarea {
-  font-family: inherit;
-}
-
-input::-ms-clear {
-  display: none;
-}
-
-button {
-  cursor: pointer;
-}
-
-button::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-
-a,
-a:visited {
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-ul li {
-  list-style: none;
-}
-
-img {
-  vertical-align: top;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-size: inherit;
-  font-weight: inherit;
-}
-
-
-/*============================================================================================================*/
+// import
+@import "./nullStyle";
 
 body{
   background-color:rgba(99, 202, 79, 0.233);
@@ -122,12 +30,6 @@ body{
   
 }
 
-.main-block {
-}
-.main-block__title {
-}
-.main-block__main-title {
-}
 .main-title {
   display: flex;
   font-size: 34px;
@@ -138,18 +40,9 @@ body{
   display: flex;
   margin-right: 40px;
 }
-.main-title__flags-icon {
-}
-.main-title__flags-counter {
-}
 .main-title__timer-block{
   display: flex;
 }
-.main-title__timer-icon {
-}
-.main-title__timer-time {
-}
-
 
 
 .main-field{
@@ -166,12 +59,8 @@ body{
   -khtml-user-select: none;
   -webkit-user-select: none;
   user-select: none;
-
-  /* pointer-events: none; */
-  /* cursor: pointer; */
 }
 .fields__cell{
-  /* border: 2px solid rgb(255, 255, 255); */
 	cursor: pointer;
   font-weight: 800;
   height: 27px;
@@ -207,15 +96,8 @@ body{
   padding-right: 70px;
   
 }
-.buttons-config{}
 .buttons-config button {
   padding: 10px;
   font-size: 20px;
   font-weight: 600;
-}
-.buttons-config__easy-mode {
-}
-.buttons-config__normal-mode {
-}
-.buttons-config__hard-mode {
 }

@@ -25,8 +25,6 @@ export function activatorGameStatesMode(startGameActive) {
 
 			fieldStyle.setProperty('grid-template-columns', `repeat(10, 40px)`);
 
-
-
 			globalGameData.field.childNodes.forEach(item => {
 				item.style.fontSize = "30px";
 				item.style.height = "40px";
@@ -57,6 +55,6 @@ export function activatorGameStatesMode(startGameActive) {
 		};
 		flagCounter.textContent = arrayGameModeStates[indexArrayGameModeStates].BOMBS_COUNT;
 
-		return startGameActive
+		return startGameActive;
 	});
 };
