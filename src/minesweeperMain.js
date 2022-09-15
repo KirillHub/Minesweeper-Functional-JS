@@ -1,10 +1,10 @@
 'use strict';
 
-import { GlobalGameData } from "../src/GameGlobalData/GameGlobalData.js";
-import { activatorGameStatesMode } from "../src/Core/UI/activatorGameDataStates.js";
-import { createBoard } from "../src/Core/UI/gameBoardCreation.js";
-import { openFieldCells, isValidForOpenCells, isBomb, getCellsCount } from "../src/Core/Modules/openFieldCells.js";
-import { bombsFirstClickAnimation } from "../src/Core/Modules/bombsFirstClickAnimation.js";
+import { GlobalGameData } from "./GameGlobalData/GameGlobalData.js";
+import { activatorGameStatesMode } from "./Core/UI/activatorGameDataStates.js";
+import { createBoard } from "./Core/UI/gameBoardCreation.js";
+import { openFieldCells, isValidForOpenCells, isBomb, getCellsCount } from "./Core/Modules/openFieldCells.js";
+import { bombsFirstClickAnimation } from "./Core/Modules/bombsFirstClickAnimation.js";
 import { rebootGameWindow } from "./Core/Util/util.js";
 import { flagCounter } from "./Core/UI/flagsAnimation.js";
 import MusicComponents from "./Core/Modules/MusicComponents.js";

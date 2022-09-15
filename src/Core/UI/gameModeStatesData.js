@@ -3,7 +3,7 @@
 const easyGameMode = {
 	"WIDTH": 10,
 	"HEIGHT": 10,
-	"BOMBS_COUNT": 4,
+	"BOMBS_COUNT": 12,
 };
 
 const normalGameMode = {

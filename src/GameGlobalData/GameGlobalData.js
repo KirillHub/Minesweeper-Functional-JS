@@ -64,7 +64,7 @@ export class GlobalGameData {
 	};
 
 	getBombsCount() {
-		if (this.cells.length === 100) this.BOMBS_COUNT = 4;
+		if (this.cells.length === 100) this.BOMBS_COUNT = 12;
 		if (this.cells.length === 225) this.BOMBS_COUNT = 35;
 		if (this.cells.length === 400) this.BOMBS_COUNT = 80;
 	};
