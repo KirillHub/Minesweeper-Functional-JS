@@ -15,8 +15,6 @@ export function activatorGameStatesMode(startGameActive) {
 			globalGameData.field.removeChild(globalGameData.field.firstChild)
 		};
 
-		// rebootGame(event);
-
 		if (event.target.textContent === 'Easy') {
 			indexArrayGameModeStates = 0;
 
@@ -56,20 +54,4 @@ export function activatorGameStatesMode(startGameActive) {
 		};
 		return startGameActive
 	});
-};
-// activatorGameStatesMode(15,15,15)
-
-const rebootGame = (event) => {
-	if (event.target.classList.contains('start-game')) {
-		console.log('yes');
-		event.target.classList.remove('start-game');
-
-	} else {
-		const resultQuestion = confirm("Вы желаете начать новую игру?");
-		console.log('cringe');
-
-		if (resultQuestion) {
-			return window.location.reload()
-		}
-	}
 };
