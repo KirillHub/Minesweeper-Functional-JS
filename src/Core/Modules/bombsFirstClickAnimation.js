@@ -4,20 +4,20 @@ import { isValidForOpenCells } from "../Modules/openFieldCells.js";
 import { GlobalGameData } from "../../GameGlobalData/GameGlobalData.js";
 import { randomizerMinesIndex } from "../Util/util.js"
 
-export function bombsFirstClickAnimation(row, column, WIDTH, BOMBS_COUNT,
-	arrayBombNeighboursOnFirstClick, cells) {
+export function bombsFirstClickAnimation(row, column, WIDTH, BOMBS_COUNT, cells) {
 
 	const globalGameData = new GlobalGameData();
 	let setObjectOfRandomMines = globalGameData.setObjectOfRandomMines;
 	let bombsRandomArrayGenerated = globalGameData.bombsRandomArrayGenerated;
 	let countFieldsChildrenBlocks = cells.length;
+	const arrayBombNeighboursOnFirstClick = [];
 
 	if (arrayBombNeighboursOnFirstClick.length === 0) {
 		function pushNeighborFieldsIndex(row, column, WIDTH) {
 			if (!isValidForOpenCells(row, column, WIDTH)) return false;
 
 			const index = row * WIDTH + column;
-			return arrayBombNeighboursOnFirstClick.push(index)
+			return arrayBombNeighboursOnFirstClick.push(index);
 		}
 		pushNeighborFieldsIndex(row, column, WIDTH);
 
@@ -33,6 +33,9 @@ export function bombsFirstClickAnimation(row, column, WIDTH, BOMBS_COUNT,
 		arrayBombNeighboursOnFirstClick.forEach(neighbors =>
 			setObjectOfRandomMines.add(neighbors));
 
+		arrayBombNeighboursOnFirstClick.forEach(neighbors =>
+			setObjectOfRandomMines.add(neighbors));
+
 		do {
 			setObjectOfRandomMines.add(randomizerMinesIndex(0, countFieldsChildrenBlocks));
 		} while (setObjectOfRandomMines.size < (BOMBS_COUNT + arrayBombNeighboursOnFirstClick.length)
@@ -43,7 +46,7 @@ export function bombsFirstClickAnimation(row, column, WIDTH, BOMBS_COUNT,
 		bombsRandomArrayGenerated = bombsRandomArrayGenerated
 			.slice(arrayBombNeighboursOnFirstClick.length, bombsRandomArrayGenerated.length);
 
-		bombsRandomArrayGenerated.forEach(item => cells[item].classList.add('bomb-cell'));
+		globalGameData.field.classList.add('blocked');
 
 		return bombsRandomArrayGenerated;
 	}

@@ -5,7 +5,6 @@ import { activatorGameStatesMode } from "./Core/UI/activatorGameDataStates.js";
 import { createBoard } from "./Core/UI/gameBoardCreation.js";
 import { openFieldCells, isValidForOpenCells, isBomb, getCellsCount } from "./Core/Modules/openFieldCells.js";
 import { bombsFirstClickAnimation } from "./Core/Modules/bombsFirstClickAnimation.js";
-import { rebootGameWindow } from "./Core/Util/util.js";
 import { flagCounter } from "./Core/UI/flagsAnimation.js";
 import MusicComponents from "./Core/Modules/MusicComponents.js";
 import endGame from "./Core/Modules/endGame.js";
@@ -21,6 +20,21 @@ createBoard(15, 15, 35);
 activatorGameStatesMode(createBoard);
 /*============================================================================================================*/
 
+//? buttons animation
+globalGameData.buttonsParentDiv.addEventListener('click', event => {
+	event.preventDefault();
+
+	globalGameData.field.childNodes.forEach(item => {
+		if (item.classList.contains('bomb-cell')) {
+			item.classList.remove('bomb-cell')
+		}
+	});
+	if (globalGameData.field.classList.contains('blocked')) {
+		globalGameData.field.classList.remove('blocked')
+	}
+});
+
+
 //? clicks animation
 //TODO: forget about any first click's implementation
 globalGameData.field.addEventListener('click', event => {
@@ -31,8 +45,6 @@ globalGameData.field.addEventListener('click', event => {
 
 	endGame(selector);
 
-	globalGameData.buttonsParentDiv.addEventListener('click', e => rebootGameWindow(e));
-
 	//create array with cells
 	globalGameData.getArrayChildrenCells();
 	globalGameData.getTargetIndex();
@@ -41,35 +53,43 @@ globalGameData.field.addEventListener('click', event => {
 	globalGameData.getNumberBoardRow();
 	globalGameData.getBombsCount();
 
-	let bombsFirstClickAnimationArray = new Array();
+	let bombsArray = [];
+	let bombsFirstClickAnimationArray = [];
 
-	bombsFirstClickAnimationArray = bombsFirstClickAnimation(globalGameData.row,
-		globalGameData.column, globalGameData.WIDTH, globalGameData.BOMBS_COUNT,
-		globalGameData.arrayBombNeighboursOnFirstClick, globalGameData.cells);
+	if (!globalGameData.field.classList.contains('blocked')) {
+		bombsFirstClickAnimationArray = bombsFirstClickAnimation(globalGameData.row,
+			globalGameData.column, globalGameData.WIDTH, globalGameData.BOMBS_COUNT,
+			globalGameData.cells);
 
-	if (!bombsFirstClickAnimationArray || typeof bombsFirstClickAnimationArray === "undefined" ||
-		bombsFirstClickAnimationArray.length === 0) {
-		bombsFirstClickAnimationArray = new Array();
-		globalGameData.cells.forEach((item, index) => {
+		try {
+			bombsFirstClickAnimationArray.forEach(item =>
+				globalGameData.cells[item].classList.add('bomb-cell'));
+		} catch (error) {
+			alert('Something going wrong, game will restarting');
+			setTimeout(() => { window.location.reload() }, 1000);
+		}
+	}
 
-			if (item.classList.contains('bomb-cell')) {
-				bombsFirstClickAnimationArray.push(index);
-			}
-		});
-	};
+	globalGameData.field.childNodes.forEach((item, index) => {
+		if (typeof item.classList[2] === "undefined") {
+			return
+		} else bombsArray.push(index);
+	});
 
-	openFieldCells(globalGameData.row, globalGameData.column, selector,
-		globalGameData.WIDTH, globalGameData.cells, bombsFirstClickAnimationArray);
-	isBomb(globalGameData.row, globalGameData.column, globalGameData.WIDTH,
-		bombsFirstClickAnimationArray);
-	isValidForOpenCells(globalGameData.row, globalGameData.column, globalGameData.WIDTH,
-		bombsFirstClickAnimationArray);
-	getCellsCount(globalGameData.row, globalGameData.column, globalGameData.WIDTH,
-		bombsFirstClickAnimationArray);
-
-	return globalGameData.bombsFirstClickAnimationArray = bombsFirstClickAnimationArray;
+	try {
+		openFieldCells(globalGameData.row, globalGameData.column, selector,
+			globalGameData.WIDTH, globalGameData.cells, bombsArray);
+		isBomb(globalGameData.row, globalGameData.column, globalGameData.WIDTH,
+			bombsArray);
+		isValidForOpenCells(globalGameData.row, globalGameData.column, globalGameData.WIDTH,
+			bombsArray);
+		getCellsCount(globalGameData.row, globalGameData.column, globalGameData.WIDTH,
+			bombsArray);
+	} catch (err) {
+		alert("Please, restart");
+		setTimeout(() => { window.location.reload() }, 1000);
+	}
 });
-
 
 // right click animation 
 globalGameData.field.addEventListener('contextmenu', (event) => {

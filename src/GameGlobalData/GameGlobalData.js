@@ -6,27 +6,24 @@ export class GlobalGameData {
 		this.WIDTH;
 		this.BOMBS_COUNT;
 		this.flagsCounter;
+		this.index;
+		this.column;
+		this.row;
+
 		this.flagsCounterBlock = document.querySelector(".main-title__flags-counter");
-		this.flagsLocationCoords = new Set();
 		this.field = document.querySelector('.field');
 		this.fieldCellsChildren = document.querySelectorAll('.fields__cell');
 		this.buttonsParentDiv = document.querySelector('.buttons-config');
 		this.endGameText = document.querySelector('.end-game');
-		this.cells = [];
-		this.index;
-		this.column;
-		this.row;
+
+		this.cells = new Array();
 		this.bombsFirstClickAnimationArray = new Array();
 		this.bombsRandomArrayGenerated = new Array();
 		this.arrayBombNeighboursOnFirstClick = new Array();
-		this.setObjectOfRandomMines = new Set();
-		this.isFistClickImplement = false;
 		this.arrayChildrenCells = new Array();
+		this.setObjectOfRandomMines = new Set();
+		this.flagsLocationCoords = new Set();
 	};
-
-	getCringe() {
-		if (this.bombsFirstClickAnimationArray.length !== 0) return this.bombsFirstClickAnimationArray;
-	}
 
 	getTargetIndex() {
 		if (this.cells.length !== 0) this.index = this.cells.indexOf(event.target);
@@ -53,6 +50,8 @@ export class GlobalGameData {
 		if (typeof this.index !== 'undefined' &&
 			typeof this.WIDTH !== 'undefined') this.row = Math.floor(this.index / this.WIDTH);
 	};
+	/*============================================================================================================*/
+
 
 	getArrayChildrenCells() {
 		this.fieldCellsChildren = document.querySelectorAll('.fields__cell');

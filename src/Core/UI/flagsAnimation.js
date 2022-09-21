@@ -58,7 +58,7 @@ function checkingFlagsSet() {
 			if (pullFlagsCoord.length === bombsLenghtArray.length) {
 				globalGameData.endGameText.innerHTML = "YOU WIN !";
 				MusicComponents.musicSounds('../music/win.mp3');
-				setTimeout(() => { window.location.reload() }, 2000);
+				setTimeout(() => { globalGameData.endGameText.innerText = '' }, 1500);
 			}
 		})
 	});

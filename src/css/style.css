@@ -93,22 +93,6 @@ h6 {
 }
 
 /*--------------------*/
-body {
-  color: black;
-  -moz-user-select: -moz-none;
-  -o-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-      user-select: none;
-}
-
-.wrapper {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 0 0 15px;
-}
-
-/*============================================================================================================*/
 .main-block__title {
   margin: 0 0 30px 0;
   text-align: center;
@@ -198,4 +182,19 @@ body {
 button {
   display: inline-block;
   margin-right: 10px;
+}
+
+body {
+  color: black;
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+      user-select: none;
+}
+
+.wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 0 0 15px;
 }
