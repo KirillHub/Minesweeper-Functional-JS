@@ -1,4 +1,3 @@
-'use strict';
 
 import { GlobalGameData } from "./GameGlobalData/GameGlobalData.js";
 import { activatorGameStatesMode } from "./Core/UI/activatorGameDataStates.js";
@@ -25,18 +24,13 @@ globalGameData.buttonsParentDiv.addEventListener('click', event => {
 	event.preventDefault();
 
 	globalGameData.field.childNodes.forEach(item => {
-		if (item.classList.contains('bomb-cell')) {
-			item.classList.remove('bomb-cell')
-		}
+		item.classList.remove('bomb-cell');
 	});
-	if (globalGameData.field.classList.contains('blocked')) {
-		globalGameData.field.classList.remove('blocked')
-	}
+	globalGameData.field.classList.remove('blocked');
 });
 
 
 //? clicks animation
-//TODO: forget about any first click's implementation
 globalGameData.field.addEventListener('click', event => {
 	event.preventDefault();
 	const selector = event.target;
@@ -72,7 +66,7 @@ globalGameData.field.addEventListener('click', event => {
 
 	globalGameData.field.childNodes.forEach((item, index) => {
 		if (typeof item.classList[2] === "undefined") {
-			return
+			return;
 		} else bombsArray.push(index);
 	});
 
@@ -87,7 +81,7 @@ globalGameData.field.addEventListener('click', event => {
 			bombsArray);
 	} catch (err) {
 		alert("Please, restart");
-		setTimeout(() => { window.location.reload() }, 1000);
+		window.location.reload();
 	}
 });
 
