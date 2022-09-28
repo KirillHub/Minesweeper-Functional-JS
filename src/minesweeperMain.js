@@ -35,22 +35,21 @@ window.addEventListener('DOMContentLoaded', () => {
 	//? clicks animation
 	globalGameData.field.addEventListener('click', event => {
 		event.preventDefault();
+
 		const selector = event.target;
+		let bombsArray = [];
+		let bombsFirstClickAnimationArray = [];
 		MusicComponents.musicSounds('../music/clicks.wav');
 		if (selector.tagName !== 'DIV') return;
 
 		endGame(selector);
 
-		//create array with cells
 		globalGameData.getArrayChildrenCells();
 		globalGameData.getTargetIndex();
 		globalGameData.getBoardWidth();
 		globalGameData.getNumberBoardColumn();
 		globalGameData.getNumberBoardRow();
 		globalGameData.getBombsCount();
-
-		let bombsArray = [];
-		let bombsFirstClickAnimationArray = [];
 
 		if (!globalGameData.field.classList.contains('blocked')) {
 			bombsFirstClickAnimationArray = bombsFirstClickAnimation(globalGameData.row,
@@ -61,8 +60,8 @@ window.addEventListener('DOMContentLoaded', () => {
 				bombsFirstClickAnimationArray.forEach(item =>
 					globalGameData.cells[item].classList.add('bomb-cell'));
 			} catch (error) {
-				alert('Something going wrong, game will restarting');
-				setTimeout(() => { window.location.reload() }, 1000);
+				// alert('Something going wrong, game will restarting');
+				// setTimeout(() => { window.location.reload() }, 1000);
 			}
 		}
 

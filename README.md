@@ -1,8 +1,6 @@
 # Sapper game on native JS in functional style
 
-![hard-settings](https://user-images.githubusercontent.com/105659797/190439129-9852dd72-ea3f-469c-aa81-1b4d552aa88a.jpg)
-![easy-settings](https://user-images.githubusercontent.com/105659797/190651573-707cc762-5659-44bc-8d49-4d625506f992.jpg)
-![normal-settings](https://user-images.githubusercontent.com/105659797/190651581-35df1fca-d6ea-4ecd-88ed-dbc36975ae15.jpg)
+![hard-settings]('./src/img/hard-settings.jpg');
 
 The interface design of this web application is based on the Chrome version of the online minesweeper.
 But, unlike the Google version, my version of this sapper is written
