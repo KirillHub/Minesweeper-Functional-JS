@@ -1,29 +1,18 @@
 {
-	"name": "minesweeper",
-	"version": "1.0.0",
-	"description": "",
-	"main": "gulpfile.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"author": "",
-	"license": "ISC",
-	"devDependencies": {
-		"browser-sync": "^2.26.5",
-		"gulp": "^4.0.2",
-		"gulp-autoprefixer": "^6.1.0",
-		"gulp-clean-css": "^4.2.0",
-		"gulp-cli": "^2.2.0",
-		"gulp-htmlmin": "^5.0.1",
-		"gulp-imagemin": "^6.0.0",
-		"gulp-rename": "^1.4.0",
-		"gulp-sass": "^5.0.0",
-		"sass": "^1.35.1"
-	},
-	"browserslist": [
-		"last 1 version",
-		"> 1%",
-		"maintained node versions",
-		"not dead"
-	]
+  "devDependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.19.3",
+    "@babel/preset-env": "^7.19.3",
+    "babel-loader": "^8.2.5",
+    "core-js": "^3.25.5",
+    "webpack-cli": "^4.10.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "browserslist": [
+    "> 1%"
+  ],
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1"
+  }
 }
