@@ -50,8 +50,6 @@ export class GlobalGameData {
 		if (typeof this.index !== 'undefined' &&
 			typeof this.WIDTH !== 'undefined') this.row = Math.floor(this.index / this.WIDTH);
 	};
-	/*============================================================================================================*/
-
 
 	getArrayChildrenCells() {
 		this.fieldCellsChildren = document.querySelectorAll('.fields__cell');
@@ -66,6 +64,15 @@ export class GlobalGameData {
 		if (this.cells.length === 100) this.BOMBS_COUNT = 12;
 		if (this.cells.length === 225) this.BOMBS_COUNT = 35;
 		if (this.cells.length === 400) this.BOMBS_COUNT = 80;
+	};
+
+	getBoardDataStates = () => {
+		this.getArrayChildrenCells();
+		this.getTargetIndex();
+		this.getBoardWidth();
+		this.getNumberBoardColumn();
+		this.getNumberBoardRow();
+		this.getBombsCount();
 	};
 
 };

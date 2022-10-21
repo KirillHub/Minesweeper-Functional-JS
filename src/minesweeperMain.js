@@ -44,12 +44,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 		endGame(selector);
 
-		globalGameData.getArrayChildrenCells();
-		globalGameData.getTargetIndex();
-		globalGameData.getBoardWidth();
-		globalGameData.getNumberBoardColumn();
-		globalGameData.getNumberBoardRow();
-		globalGameData.getBombsCount();
+		globalGameData.getBoardDataStates();
 
 		if (!globalGameData.field.classList.contains('blocked')) {
 			bombsFirstClickAnimationArray = bombsFirstClickAnimation(globalGameData.row,
@@ -60,8 +55,8 @@ window.addEventListener('DOMContentLoaded', () => {
 				bombsFirstClickAnimationArray.forEach(item =>
 					globalGameData.cells[item].classList.add('bomb-cell'));
 			} catch (error) {
-				// alert('Something going wrong, game will restarting');
-				// setTimeout(() => { window.location.reload() }, 1000);
+				alert('Something going wrong, game will restarting');
+				setTimeout(() => { window.location.reload() }, 1000);
 			}
 		}
 

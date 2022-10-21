@@ -21,36 +21,34 @@ function startGame(WIDTH, HEIGHT, BOMBS_COUNT) {
 	let hoverClassEffectsArray = new Set();
 
 	function board() {
-		const buttonsParentDiv = document.querySelector('.buttons-config');
-		const fieldStyle = field.style;
-		// fieldStyle.outline = "10px solid rgba(126, 54, 54, 0.678)";
-
 		let counter = -1;
 
-		for (let i = 0; i < WIDTH; i++) {
-			for (let j = 0; j < HEIGHT; j++) {
-				counter++;
-				let number = i + j + 2;
-				const unpairMaskBlock = document.createElement('div');
-				const pairMaskBlock = document.createElement('div');
+		try {
+			for (let i = 0; i < WIDTH; i++) {
+				for (let j = 0; j < HEIGHT; j++) {
+					counter++;
+					let number = i + j + 2;
+					const unpairMaskBlock = document.createElement('div');
+					const pairMaskBlock = document.createElement('div');
 
-				unpairMaskBlock.classList.add('fields__hover-class', "fields__cell");
-				pairMaskBlock.classList.add('fields__hover-class', "fields__cell");
+					unpairMaskBlock.classList.add('fields__hover-class', "fields__cell");
+					pairMaskBlock.classList.add('fields__hover-class', "fields__cell");
 
-				if (number % 2 === 0) {
-					pairMaskBlock.style.backgroundColor = '#a9d751';
-					// pairMaskBlock.textContent = counter;
-					field.append(pairMaskBlock);
-					keysPairArray.push(counter);
+					if (number % 2 === 0) {
+						pairMaskBlock.style.backgroundColor = '#a9d751';
+						field.append(pairMaskBlock);
+						keysPairArray.push(counter);
+					}
+					if (number % 2 !== 0) {
+						unpairMaskBlock.style.backgroundColor = '#a2d049';
+						field.append(unpairMaskBlock);
+						keysUnpairArray.push(counter);
+					}
+					cells = [...field.children];
 				}
-				if (number % 2 !== 0) {
-					unpairMaskBlock.style.backgroundColor = '#a2d049';
-					// unpairMaskBlock.textContent = counter;
-					field.append(unpairMaskBlock);
-					keysUnpairArray.push(counter);
-				}
-				cells = [...field.children];
 			}
+		} catch (err) {
+			alert(err)
 		}
 	}
 	board();
