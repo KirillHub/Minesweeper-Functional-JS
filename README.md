@@ -7,7 +7,7 @@
 
 
     - The interface design of this web application is based on the Chrome version of the online minesweeper.  
-      But, unlike the Google version, my version of this sapper is written ithout the use of canvas'a, as in the original.
+      But, unlike the Google version, my version of this sapper is written without the use of canvas'a, as in the original.
 
   ## Functionality, development, description:
   - The board is created using a two-dimensional matrix and, when changing the mode, clears all cells recursively and randomly recreates the array with bombs.
